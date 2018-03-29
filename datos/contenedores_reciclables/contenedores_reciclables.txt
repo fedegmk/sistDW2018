@@ -1,0 +1,37 @@
+Contenedores para clasificación de residuos secos domiciliarios
+
+
+Descripción
+-----------
+
+CSV con la ubicación de contenedores habilitados para el depósito de residuos
+secos domiciliarios, ubicados en Supermercados, Complejos Habitacionales,
+Edificios, Vía Pública, etc.
+
+La información es mantenida por la División Limpieza de la Intendencia de
+Montevideo. 
+http://www.montevideo.gub.uy/tramites/dependencias/limpieza
+
+
+Los datos se generan diariamente por lo tienen la información actualizada al
+día anterior.
+
+El Sistema de Referencia de las coordenadas definidas en los datos es
+SIRGAS2000 ITRF2000, proyección UTM 21S. 
+
+
+Descripción de campos
+----------------------
+
+ 
+ Campo                      Null?    Tipo            Observaciones
+ -------------------------- -------- --------------- --------------------------------------------
+ GID                        NOT NULL NUMBER	     Clave
+ NOMBRE		            NOT NULL VARCHAR2        Nombre del local donde está el contenedor
+ OBSERVACIONES			     VARCHAR2        Aclaración de la dirección
+ TIPO_LOCAL_SEL_DOM         NOT NULL VARCHAR2        Tipo de local donde está el contenedor
+ THE_GEOM.SDO_POINT.X       NOT NULL Coordenada      Coordenada geográfica x, SRID UTM21 S
+ THE_GEOM.SDO_POINT.Y       NOT NULL Coordenada      Coordenada geográfica y, SRID UTM21 S
+
+
+

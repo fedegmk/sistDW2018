@@ -1,0 +1,84 @@
+Habilitación – Registro de locales y empresas alimentarias
+
+Descripción
+-----------
+
+El Servicio de Regulación Alimentaria realiza el registro y habilitación de locales y empresas  basado en la siguiente base legal:
+
+- Digesto Municipal - Volumen VI " De la Higiene y Asistencia Social - Título II. Fuente: Decreto 27.235 del 12/09/1996.
+- Por Decreto Nº 33.493 de la Junta Departamental de Montevideo se faculta a la Intendencia de Montevideo a aplicar el Reglamento Bromatologico Nacional - Decreto 315/994 de fecha 05/07/1994.
+- Decreto Nº 33.493 de la Junta Departamental de Montevideo. Res. 3912/10 de 30 de agosto de 2010.
+
+Artículo 1.1.39 - Empresa Alimentaria: es la organización dedicada a la realización de una o más de las siguientes actividades: industrialización, exportación, fraccionamiento, almacenamiento, distribución o comercialización de alimentos. Por extensión se incluye en esta denominación a la organización dedicada al suministro de preparaciones culinarias.
+
+Artículo 1.1.43 - Habilitación de una empresa alimentaria: Es el acto por el cual la Oficina Bromatologica competente autoriza a una empresa a realizar una o más de las actividades previstas en el artículo 1.1.39.
+
+Artículo D.1091.2 - Toda empresa alimentaria, para iniciar sus actividades o cuando se presente cualquier situación de las indicadas en el artículo D.1091.7 deberá obtener la habilitación y el registro bromatologico correspondiente.
+
+Artículo D.1091.7- La habilitación deberá ser renovada en los siguientes casos:
+
+  a) cuando se modifique o reforme el local habilitado
+  b) cuando se modifique o amplíe la actividad desarrollada
+  c) cuando la empresa cambie de titular
+  d) cuando se deje de operar por un lapso superior a 180 días hábiles
+  e) cada cinco años
+
+La habilitación se otorga por 5 años.
+Una vez habilitados los locales alimentarios se entrega a la empresa para su colocación en el local  en lugar visible al público, los adhesivos que a continuación se muestran:
+
+  1.  Elaboradores
+  2.  Expendedores - elaboradores
+  3.  Expendedores
+
+
+Descripción de campos: Locales registrados (v_locales_real.csv)
+---------------------------------------------------------------
+NRO_DOCUMENTO:    Nro.de RUT: identificador de la empresa que le otorga la DGI.
+EMPRESA:          Razón social de la empresa a la que pertenece el local alimentario.
+FINGRESO:         Fecha de ingreso de la solicitud de habilitación del local.
+RUBRO:            Identificación que le asigna el Servicio de Regulación Alimentaria de acuerdo al giro que desarrolla el local de la empresa.
+NRO_HAB:          Es el número de registro bromatológico que el adjudica el Servicio de Regulación Alimentaria a un local de la empresa alimentaria.
+RALOCA_ID:        Identificador del local de la empresa.
+DIR_LOCAL:        Dirección del local alimentario.
+CCZ:              Nro.de CCZ donde se ubica el local alimentario.
+GIROS:            Actividad que desarrolla la empresa en el local alimentario.
+ESTADO_LOCAL:     Estado del local : muestra si el local alimentario esta habilitado, en trámite o con su habilitación vencida.
+FDESDE_HAB:       Fecha de habilitación: fecha en la que se habilitó el local.
+FHASTA_HAB:       Fecha de vencimiento de habilitación :fecha hasta la que está habilitado el local.
+NOMBRE_COMERCIAL: Nombre comercial o de fantasía con el cual la empresa identifica al local alimentario.
+OBSERVACIONES:    Información complementaria del local alimentario.
+COMPLEJO:         Complejo habitacional o comercial donde se ubica el local 
+VIA_VIA:          Identificador de la calle (con un código otorgado por la I.M) donde se ubica el local. (publicado en Catálogo de Datos Abiertos como “Vías de tránsito”.
+NOM_VIA:          Nombre de la calle donde se ubica el local alimentario.
+NRO_PUERTA:       Nro. de puerta del local alimentario.
+LETRA:            Información complementaria de la dirección del local (ej.: bis).
+APTO:             Información complementaria de la dirección del local (ej.: apto o local).
+PLANTA:           Información complementaria de la dirección del local (ej: planta o piso).
+BLOQUE:           Información complementaria de la dirección del local (ej.: bloque o edificio).
+
+
+
+Descripción de campos: Locales registrados por tipo de giro (v_local_giros_real.csv)
+-------------------------------------------------------------------------------------
+RALOCA_ID:        Identificador del local de la empresa.
+RA_CLAS_ID:       Identificador de clase, asociado a Capítulo del Reglamento Bromatológico Nacional (Decreto Nº 315/94).
+DESCRIPCION:      Nombre de la clase, asociada a Capítulo del Reglamento Bromatológico Nacional (Decreto Nº 315/94).
+RASUBC_ID:        Identificador de sub-clase, asociado a Sección dentro del Capítulo del Reglamento Bromatológico Nacional (Decreto Nº 315/94).
+DESCRIPCION:      Nombre de sub-clase, asociado a Sección dentro del Capítulo del Reglamento Bromatológico Nacional (Decreto Nº 315/94).
+RAGIRO_ID:        Identificador del giro que desarrolla la empresa en el local alimentario.
+DESCRIPCION_GIRO: Nombre del giro que desarrolla la empresa en el local alimentario.
+FDESDE:           Fecha desde: fecha en que se habilitó el giro que desarrolla la empresa en el local alimentario.
+FHASTA:           Fecha hasta: fecha hasta la que se habilita el giro que desarrolla la empresa en el local alimentario.
+
+
+
+Preguntas frecuentes
+--------------------
+
+¿Donde puedo denunciar irregularidades constatadas en un local alimentario?**
+R: La denuncia puede hacerse al Centro de Información al Consumidor de Alimentos(CICA) del Servicio de Regulación Alimentaria de la siguiente forma:
+1) Personalmente en el 3º piso de la I.M en las oficina del CICA en el horario de atención al público (10:15 a 15:45).
+2) Por teléfono al 1950 2131, fuera del horario de atención telefónica (de 10.30 h a 15.45 h) su denuncia o consulta puede ser registrada en un contestador automático donde usted dispone de un minuto para expresar su inquietud. 
+3) Via e-mail a cica@imm.gub.uy] o por el [formulario de denuncias, quejas y sugerencias.](http://www.montevideo.gub.uy/empresas/regulacion-alimentaria/denuncias-quejas-y-sugerencias)
+
+
