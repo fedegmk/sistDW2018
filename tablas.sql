@@ -1,7 +1,7 @@
 
 -- crear user "postgres" con pass "postgres"
 
-﻿CREATE DATABASE datawarehouse
+CREATE DATABASE datawarehouse
     WITH 
     OWNER = "postgres"
     ENCODING = 'UTF8'
@@ -60,33 +60,6 @@ ALTER TABLE public.problema_vivienda
     OWNER to postgres;
 
 
-CREATE TABLE public.grupo_problema_vivienda
-(
-    id_grupo_problema_vivienda SMALLINT NOT NULL,
-    CONSTRAINT grupo_problema_vivienda_pkey PRIMARY KEY (id_grupo_problema_vivienda)
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.grupo_problema_vivienda
-    OWNER to postgres;
-    
-CREATE TABLE public.bridge_grupo_problema_vivienda
-(
-    id_grupo_problema_vivienda SMALLINT NOT NULL REFERENCES grupo_problema_vivienda (id_grupo_problema_vivienda),
-    id_problema_vivienda SMALLINT NOT NULL REFERENCES problema_vivienda (id_problema_vivienda),
-    CONSTRAINT bridge_grupo_problema_vivienda_pkey PRIMARY KEY (id_grupo_problema_vivienda,id_problema_vivienda)
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.bridge_grupo_problema_vivienda
-    OWNER to postgres;
-
 
 
 CREATE TABLE public.hogar
@@ -129,20 +102,33 @@ ALTER TABLE public.empresa
     OWNER to postgres;
 
 
-CREATE TABLE public.zona_geografica
+CREATE TABLE public.ccz_municipio
 (
-    id_zona_geografica SMALLINT NOT NULL,
-    barrio varchar(50) COLLATE pg_catalog."default" NOT NULL,
+    id_ccz_municipio SMALLINT NOT NULL,
     ccz varchar(50) COLLATE pg_catalog."default" NOT NULL,
     municipio varchar(50) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT zona_geografica_pkey PRIMARY KEY (id_zona_geografica)
+    CONSTRAINT ccz_municipio_pkey PRIMARY KEY (id_ccz_municipio)
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.zona_geografica
+ALTER TABLE public.ccz_municipio
+    OWNER to postgres;
+
+CREATE TABLE public.barrio
+(
+    id_barrio SMALLINT NOT NULL,
+    nom_barrio varchar(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT barrio_pkey PRIMARY KEY (id_barrio)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.barrio
     OWNER to postgres;
 
 
@@ -197,11 +183,12 @@ ALTER TABLE public.contenedor_especial
 CREATE TABLE public.recoleccion_cont_residuos
 (
     id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_zona_geografica SMALLINT NOT NULL REFERENCES zona_geografica (id_zona_geografica),
+    id_ccz_municipio SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
+    id_barrio SMALLINT NOT NULL REFERENCES barrio (id_barrio),
     id_tiempo SMALLINT NOT NULL REFERENCES tiempo (id_tiempo),
     id_horario SMALLINT NOT NULL REFERENCES horario (id_horario),
     frec_recoleccion INTEGER DEFAULT 0 NOT NULL,
-    CONSTRAINT recoleccion_cont_residuos_pkey PRIMARY KEY (id_contenedor_res,id_zona_geografica,id_tiempo,id_horario)
+    CONSTRAINT recoleccion_cont_residuos_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio,id_barrio,id_tiempo,id_horario)
 )
 WITH (
     OIDS = FALSE
@@ -215,13 +202,15 @@ ALTER TABLE public.recoleccion_cont_residuos
 CREATE TABLE public.hogar_contenedor
 (
     id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_zona_geografica_cont SMALLINT NOT NULL REFERENCES zona_geografica (id_zona_geografica),
+    id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
+    id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
     id_hogar SMALLINT NOT NULL REFERENCES hogar (id_hogar),
-    id_zona_geografica_hogar SMALLINT NOT NULL REFERENCES zona_geografica (id_zona_geografica),
-    id_grupo_problema_vivienda SMALLINT NOT NULL REFERENCES grupo_problema_vivienda(id_grupo_problema_vivienda),
+    id_ccz_municipio_hogar SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
+    id_barrio_hogar SMALLINT NOT NULL REFERENCES barrio (id_barrio),
+    id_problema_vivienda SMALLINT NOT NULL REFERENCES problema_vivienda(id_problema_vivienda),
     cant_pers_mayor_14 INTEGER DEFAULT 0 NOT NULL,
     cant_pers_menor_14 INTEGER DEFAULT 0 NOT NULL,
-    CONSTRAINT hogar_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_zona_geografica_cont,id_hogar,id_zona_geografica_hogar,id_grupo_problema_vivienda)
+    CONSTRAINT hogar_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont, id_barrio_cont,id_hogar,id_ccz_municipio_hogar, id_barrio_hogar,id_problema_vivienda)
 )
 WITH (
     OIDS = FALSE
@@ -235,10 +224,12 @@ ALTER TABLE public.hogar_contenedor
 CREATE TABLE public.empresa_contenedor
 (
     id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_zona_geografica_cont SMALLINT NOT NULL REFERENCES zona_geografica (id_zona_geografica),
+    id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
+    id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
     id_empresa SMALLINT NOT NULL REFERENCES empresa (id_empresa),
-    id_zona_geografica_empresa SMALLINT NOT NULL REFERENCES zona_geografica (id_zona_geografica),
-    CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_zona_geografica_cont,id_empresa,id_zona_geografica_empresa)
+    id_ccz_municipio_empresa SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
+    id_barrio_empresa SMALLINT NOT NULL REFERENCES barrio (id_barrio),
+    CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont,id_barrio_cont,id_empresa,id_ccz_municipio_empresa,id_barrio_empresa)
 )
 WITH (
     OIDS = FALSE
