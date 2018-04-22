@@ -1,64 +1,64 @@
 <Schema name="recoleccion_residuos">
-  <Dimension type="StandardDimension" visible="true" foreignKey="id_barrio" name="barrio">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="barrio">
     <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-      <Table name="barrio" schema="public" alias="">
+      <Table name="barrio" schema="public">
       </Table>
-      <Level name="nom_barrio" visible="true" table="barrio" column="nom_barrio" type="String" uniqueMembers="true">
+      <Level name="nom_barrio" visible="true" table="barrio" column="nom_barrio" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
-  <Dimension type="StandardDimension" visible="true" foreignKey="id_ccz_municipio" name="ccz_municipio">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="ccz_municipio">
     <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-      <Table name="ccz_municipio" schema="public" alias="">
+      <Table name="ccz_municipio" schema="public">
       </Table>
-      <Level name="municipio" visible="true" table="ccz_municipio" column="municipio" type="String" uniqueMembers="true">
+      <Level name="municipio" visible="true" table="ccz_municipio" column="municipio" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="ccz" visible="true" table="ccz_municipio" column="ccz" type="String" uniqueMembers="true">
+      <Level name="ccz" visible="true" table="ccz_municipio" column="ccz" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
-  <Dimension type="StandardDimension" visible="true" foreignKey="id_horario" name="horario">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="horario">
     <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-      <Table name="horario" schema="public" alias="">
+      <Table name="horario" schema="public">
       </Table>
-      <Level name="tipo_rango" visible="true" table="horario" column="tipo_rango" type="String" uniqueMembers="true">
+      <Level name="tipo_rango" visible="true" table="horario" column="tipo_rango" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="rango_horario" visible="true" table="horario" column="rango_horario" type="String" uniqueMembers="true">
+      <Level name="rango_horario" visible="true" table="horario" column="rango_horario" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
-  <Dimension type="StandardDimension" visible="true" foreignKey="id_tiempo" name="tiempo">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="tiempo">
     <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-      <Table name="tiempo" schema="public" alias="">
+      <Table name="tiempo" schema="public">
       </Table>
-      <Level name="tipo_dia" visible="true" table="tiempo" column="tipo_dia" type="String" uniqueMembers="true">
+      <Level name="tipo_dia" visible="true" table="tiempo" column="tipo_dia" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="nom_dia" visible="true" table="tiempo" column="nom_dia" type="String" uniqueMembers="true">
+      <Level name="nom_dia" visible="true" table="tiempo" column="nom_dia" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
-  <Dimension type="StandardDimension" visible="true" foreignKey="id_contenedor_res" name="contenedor_residuos">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="contenedor_residuos">
     <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-      <Table name="contenedor_residuos" schema="public" alias="">
+      <Table name="contenedor_residuos" schema="public">
       </Table>
-      <Level name="municipio" visible="true" table="contenedor_residuos" column="municipio" type="String" uniqueMembers="true">
+      <Level name="municipio" visible="true" table="contenedor_residuos" column="municipio" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="circuito" visible="true" table="contenedor_residuos" column="circuito" type="String" uniqueMembers="true">
+      <Level name="circuito" visible="true" table="contenedor_residuos" column="circuito" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
   <Cube name="Recoleccion_residuos" visible="true" cache="true" enabled="true">
-    <Table name="recoleccion_cont_residuos" schema="public" alias="">
+    <Table name="recoleccion_cont_residuos" schema="public">
     </Table>
-    <DimensionUsage source="barrio" name="barrio" visible="true" foreignKey="id_barrio">
+    <DimensionUsage source="barrio" name="barrio" visible="true" foreignKey="id_barrio" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="ccz_municipio" name="ccz_municipio" visible="true" foreignKey="id_ccz_municipio">
+    <DimensionUsage source="ccz_municipio" name="ccz_municipio" visible="true" foreignKey="id_ccz_municipio" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="horario" name="horario" visible="true" foreignKey="id_horario">
+    <DimensionUsage source="horario" name="horario" visible="true" foreignKey="id_horario" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="tiempo" name="tiempo" visible="true" foreignKey="id_tiempo">
+    <DimensionUsage source="tiempo" name="tiempo" visible="true" foreignKey="id_tiempo" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res">
+    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res" highCardinality="false">
     </DimensionUsage>
     <Measure name="cant_contenedores" column="id_contenedor_res" datatype="Integer" aggregator="distinct-count" visible="true">
     </Measure>
@@ -66,51 +66,51 @@
     </Measure>
   </Cube>
   <Cube name="Hogar_contenedor" visible="true" cache="true" enabled="true">
-    <Table name="hogar_contenedor" schema="public" alias="">
+    <Table name="hogar_contenedor" schema="public">
     </Table>
-    <Dimension type="StandardDimension" visible="true" foreignKey="id_hogar" name="hogar">
+    <Dimension type="StandardDimension" visible="true" foreignKey="id_hogar" highCardinality="false" name="hogar">
       <Hierarchy name="Hierarchy tipo_hogar" visible="true" hasAll="true">
-        <Table name="hogar" schema="public" alias="">
+        <Table name="hogar" schema="public">
         </Table>
-        <Level name="tipo_hogar" visible="true" table="hogar" column="tipo_hogar" type="String" uniqueMembers="true">
+        <Level name="tipo_hogar" visible="true" table="hogar" column="tipo_hogar" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Hierarchy sanitaria" visible="true" hasAll="true">
-        <Table name="hogar" schema="public" alias="">
+        <Table name="hogar" schema="public">
         </Table>
-        <Level name="sanitaria" visible="true" table="hogar" column="sanitaria" type="String" uniqueMembers="true">
+        <Level name="sanitaria" visible="true" table="hogar" column="sanitaria" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Hierarchy estrato_social" visible="true" hasAll="true">
-        <Table name="hogar" schema="public" alias="">
+        <Table name="hogar" schema="public">
         </Table>
-        <Level name="estrato_social" visible="true" column="estrato_social" type="String" uniqueMembers="true">
+        <Level name="estrato_social" visible="true" column="estrato_social" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Hierarchy asentamiento" visible="true" hasAll="true">
-        <Table name="hogar" schema="public" alias="">
+        <Table name="hogar" schema="public">
         </Table>
-        <Level name="asentamiento" visible="true" column="asentamiento" type="String" uniqueMembers="true">
+        <Level name="asentamiento" visible="true" column="asentamiento" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="id_problema_vivienda" name="problema_vivienda">
+    <Dimension type="StandardDimension" visible="true" foreignKey="id_problema_vivienda" highCardinality="false" name="problema_vivienda">
       <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true">
-        <Table name="problema_vivienda" schema="public" alias="">
+        <Table name="problema_vivienda" schema="public">
         </Table>
-        <Level name="problema_vivienda" visible="true" column="descripcion_problema" type="String" uniqueMembers="true">
+        <Level name="problema_vivienda" visible="true" column="descripcion_problema" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <DimensionUsage source="barrio" name="barrio_hogar" visible="true" foreignKey="id_barrio_hogar">
+    <DimensionUsage source="barrio" name="barrio_hogar" visible="true" foreignKey="id_barrio_hogar" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="barrio" name="barrio_contenedor" visible="true" foreignKey="id_barrio_cont">
+    <DimensionUsage source="barrio" name="barrio_contenedor" visible="true" foreignKey="id_barrio_cont" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="ccz_municipio" name="ccz_municipio_hogar" visible="true" foreignKey="id_ccz_municipio_hogar">
+    <DimensionUsage source="ccz_municipio" name="ccz_municipio_hogar" visible="true" foreignKey="id_ccz_municipio_hogar" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="ccz_municipio" name="ccz_municipio_cont" visible="true" foreignKey="id_ccz_municipio_cont">
+    <DimensionUsage source="ccz_municipio" name="ccz_municipio_cont" visible="true" foreignKey="id_ccz_municipio_cont" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res">
+    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res" highCardinality="false">
     </DimensionUsage>
     <Measure name="cant_contenedores" column="id_contenedor_res" datatype="Integer" aggregator="distinct-count" visible="true">
     </Measure>
@@ -122,31 +122,31 @@
     </Measure>
   </Cube>
   <Cube name="Empresa_contenedor" visible="true" cache="true" enabled="true">
-    <Table name="empresa_contenedor" schema="public" alias="">
+    <Table name="empresa_contenedor" schema="public">
     </Table>
-    <Dimension type="StandardDimension" visible="true" foreignKey="id_empresa" name="empresa">
+    <Dimension type="StandardDimension" visible="true" foreignKey="id_empresa" highCardinality="false" name="empresa">
       <Hierarchy name="Hierarchy tipo_empresa" visible="true" hasAll="true">
-        <Table name="empresa" schema="public" alias="">
+        <Table name="empresa" schema="public">
         </Table>
-        <Level name="tipo_empresa" visible="true" column="tipo_empresa" type="String" uniqueMembers="true">
+        <Level name="tipo_empresa" visible="true" column="tipo_empresa" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
       <Hierarchy name="Hierarchy estado_hab" visible="true" hasAll="true">
-        <Table name="empresa" schema="public" alias="">
+        <Table name="empresa" schema="public">
         </Table>
-        <Level name="estado_hab" visible="true" column="estado_hab" type="String" uniqueMembers="true">
+        <Level name="estado_hab" visible="true" column="estado_hab" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
-    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res">
+    <DimensionUsage source="contenedor_residuos" name="contenedor_residuos" visible="true" foreignKey="id_contenedor_res" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="barrio" name="barrio_contenedor" visible="true" foreignKey="id_barrio_cont">
+    <DimensionUsage source="barrio" name="barrio_contenedor" visible="true" foreignKey="id_barrio_cont" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="barrio" name="barrio_empresa" visible="true" foreignKey="id_barrio_empresa">
+    <DimensionUsage source="barrio" name="barrio_empresa" visible="true" foreignKey="id_barrio_empresa" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="ccz_municipio" name="ccz_municipio_cont" visible="true" foreignKey="id_ccz_municipio_cont">
+    <DimensionUsage source="ccz_municipio" name="ccz_municipio_cont" visible="true" foreignKey="id_ccz_municipio_cont" highCardinality="false">
     </DimensionUsage>
-    <DimensionUsage source="ccz_municipio" name="ccz_municipio_empresa" visible="true" foreignKey="id_ccz_municipio_empresa">
+    <DimensionUsage source="ccz_municipio" name="ccz_municipio_empresa" visible="true" foreignKey="id_ccz_municipio_empresa" highCardinality="false">
     </DimensionUsage>
     <Measure name="cant_contenedores" column="id_contenedor_res" datatype="Integer" aggregator="distinct-count" visible="true">
     </Measure>
