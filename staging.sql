@@ -1,3 +1,10 @@
+-- SCHEMA: staging
+
+-- DROP SCHEMA staging ;
+
+CREATE SCHEMA staging
+    AUTHORIZATION postgres;
+
 -- Table: staging.stg_barrio
 
 -- DROP TABLE staging.stg_barrio;
@@ -42,7 +49,6 @@ ALTER TABLE staging.stg_ccz
 
 CREATE TABLE staging.stg_circ
 (
-    nro_circ smallint NOT NULL,
     cod_circ character varying(50) COLLATE pg_catalog."default" NOT NULL,
     cod_mun character varying(5) COLLATE pg_catalog."default" NOT NULL,
     geometria character varying COLLATE pg_catalog."default"
@@ -61,10 +67,12 @@ ALTER TABLE staging.stg_circ
 
 CREATE TABLE staging.stg_cont
 (
-    nro_cont smallint NOT NULL,
     cod_circ character varying(50) COLLATE pg_catalog."default" NOT NULL,
     turno_horario character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    geometria character varying COLLATE pg_catalog."default"
+    geometria character varying COLLATE pg_catalog."default",
+    nro_barrio smallint NOT NULL,
+    nro_ccz smallint NOT NULL,
+    gid integer NOT NULL
 )
 WITH (
     OIDS = FALSE
@@ -72,6 +80,65 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE staging.stg_cont
+    OWNER to postgres;
+
+-- Table: staging.stg_emps
+
+-- DROP TABLE staging.stg_emps;
+
+CREATE TABLE staging.stg_emps
+(
+    razon_soc character varying(100) COLLATE pg_catalog."default",
+    dir_emp character varying(100) COLLATE pg_catalog."default",
+    tipo_emp character varying(50) COLLATE pg_catalog."default",
+    estado_hab character varying(50) COLLATE pg_catalog."default",
+    rut character varying(50) COLLATE pg_catalog."default",
+    geometria character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.stg_emps
+    OWNER to postgres;
+
+-- Table: staging.stg_hogar
+
+-- DROP TABLE staging.stg_hogar;
+
+CREATE TABLE staging.stg_hogar
+(
+    estr_soc smallint NOT NULL,
+    tipo_hog smallint NOT NULL,
+    pv_hum_tech smallint NOT NULL,
+    pv_inund smallint NOT NULL,
+    pv_pel_derrum smallint NOT NULL,
+    pv_hum_cim smallint NOT NULL,
+    pv_gotera smallint NOT NULL,
+    pv_mur_agr smallint NOT NULL,
+    pv_ab_mal_est smallint NOT NULL,
+    pv_pis_agr smallint NOT NULL,
+    pv_caida_reb smallint NOT NULL,
+    pv_cielor_desp smallint NOT NULL,
+    pv_poca_luz_sol smallint NOT NULL,
+    pv_esc_vent smallint NOT NULL,
+    cant_hog smallint NOT NULL,
+    cant_pers_may14 smallint NOT NULL,
+    cant_pers_men14 smallint NOT NULL,
+    asentamiento smallint NOT NULL,
+    sanitaria smallint NOT NULL,
+    numero bigint NOT NULL,
+    segm smallint NOT NULL,
+    barrio smallint NOT NULL,
+    ccz smallint NOT NULL
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.stg_hogar
     OWNER to postgres;
 
 -- Table: staging.stg_mun
@@ -89,4 +156,21 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE staging.stg_mun
+    OWNER to postgres;
+
+-- Table: staging.stg_segm
+
+-- DROP TABLE staging.stg_segm;
+
+CREATE TABLE staging.stg_segm
+(
+    num_segm smallint NOT NULL,
+    geometria character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.stg_segm
     OWNER to postgres;
