@@ -11,6 +11,7 @@ CREATE DATABASE datawarehouse
     CONNECTION LIMIT = -1;
     
 -- secuencia para claves subrogadas de empresas
+
 CREATE SEQUENCE public.empresa_id_seq
     INCREMENT 1
     START 1
@@ -49,6 +50,34 @@ CREATE SEQUENCE public.hogar_id_seq
 ALTER SEQUENCE public.hogar_id_seq
     OWNER TO postgres;
     
+-- secuencia de claves subrogadas de hogares-contenedores 
+
+CREATE SEQUENCE public.hogar_cont_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.hogar_cont_id_seq
+    OWNER TO postgres;
+
+GRANT ALL ON SEQUENCE public.hogar_cont_id_seq TO postgres;
+
+-- secuencia de claves subrogadas de empresas-contenedores
+
+CREATE SEQUENCE public.empresa_cont_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.empresa_cont_id_seq
+    OWNER TO postgres;
+
+GRANT ALL ON SEQUENCE public.empresa_cont_id_seq TO postgres;   
+
 -- dim tiempo
     
 CREATE TABLE public.tiempo
@@ -254,6 +283,7 @@ ALTER TABLE public.recoleccion_cont_residuos
 
 CREATE TABLE public.hogar_contenedor
 (
+    id_hogar_contenedor bigint NOT NULL DEFAULT nextval('hogar_cont_id_seq'::regclass),
     id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
     id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
     id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
@@ -277,6 +307,7 @@ ALTER TABLE public.hogar_contenedor
 
 CREATE TABLE public.empresa_contenedor
 (
+    id_empresa_contenedor bigint NOT NULL DEFAULT nextval('empresa_cont_id_seq'::regclass),
     id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
     id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
     id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),

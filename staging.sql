@@ -70,9 +70,11 @@ CREATE TABLE staging.stg_cont
     cod_circ character varying(50) COLLATE pg_catalog."default" NOT NULL,
     turno_horario character varying(100) COLLATE pg_catalog."default" NOT NULL,
     geometria character varying COLLATE pg_catalog."default",
-    nro_barrio smallint NOT NULL,
-    nro_ccz smallint NOT NULL,
-    gid integer NOT NULL
+    nro_barrio smallint NOT NULL DEFAULT 0,
+    nro_ccz smallint NOT NULL DEFAULT 0,
+    gid integer NOT NULL,
+    nro_segm integer NOT NULL DEFAULT 0,
+    geo_cont geometry
 )
 WITH (
     OIDS = FALSE
@@ -93,7 +95,10 @@ CREATE TABLE staging.stg_emps
     tipo_emp character varying(50) COLLATE pg_catalog."default",
     estado_hab character varying(50) COLLATE pg_catalog."default",
     rut character varying(50) COLLATE pg_catalog."default",
-    geometria character varying COLLATE pg_catalog."default"
+    geometria character varying COLLATE pg_catalog."default",
+    geo_emp geometry,
+    nro_ccz integer NOT NULL DEFAULT 0,
+    nro_barrio integer NOT NULL DEFAULT 0
 )
 WITH (
     OIDS = FALSE
@@ -119,7 +124,7 @@ CREATE TABLE staging.stg_hogar
     pv_mur_agr smallint NOT NULL,
     pv_ab_mal_est smallint NOT NULL,
     pv_pis_agr smallint NOT NULL,
-    pv_caida_reb smallint NOT NULL,
+    pv_caida_rev smallint NOT NULL,
     pv_cielor_desp smallint NOT NULL,
     pv_poca_luz_sol smallint NOT NULL,
     pv_esc_vent smallint NOT NULL,
