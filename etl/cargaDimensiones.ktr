@@ -132,6 +132,36 @@ from staging.stg_ccz</sql>
     </step>
 
   <step>
+    <name>IN_stg_conts</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <sql>select stg_cont.cod_circ, stg_cont.gid, stg_circ.cod_mun
+from staging.stg_cont stg_cont
+	inner join staging.stg_circ stg_circ on stg_circ.cod_circ like stg_cont.cod_circ
+--where stg_cont.gid in (10026, 10028, 10029) 
+
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>84</xloc>
+      <yloc>317</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>IN_stg_emps</name>
     <type>TableInput</type>
     <description/>
@@ -153,6 +183,33 @@ from staging.stg_emps</sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>84</xloc>
       <yloc>220</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IN_stg_hogar</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <sql>SELECT estr_soc, tipo_hog, cant_pers_may14, cant_pers_men14, asentamiento, sanitaria, numero
+FROM staging.stg_hogar
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>84</xloc>
+      <yloc>417</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -245,6 +302,52 @@ from staging.stg_emps</sql>
     </step>
 
   <step>
+    <name>OUT_contenedor_residuos</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>contenedor_residuos</table>
+      <key>
+        <name>gid</name>
+        <field>gid</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>circuito</name>
+        <rename>cod_circ</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>municipio</name>
+        <rename>cod_mun</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>gid</name>
+        <rename>gid</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>376</xloc>
+      <yloc>317</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>OUT_empresa</name>
     <type>InsertUpdate</type>
     <description/>
@@ -296,108 +399,6 @@ from staging.stg_emps</sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>376</xloc>
       <yloc>220</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>IN_stg_conts</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <sql>select stg_cont.cod_circ, stg_cont.gid, stg_circ.cod_mun
-from staging.stg_cont stg_cont
-	inner join staging.stg_circ stg_circ on stg_circ.cod_circ like stg_cont.cod_circ 
-
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>84</xloc>
-      <yloc>317</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>OUT_contenedor_residuos</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>contenedor_residuos</table>
-      <key>
-        <name>gid</name>
-        <field>gid</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>circuito</name>
-        <rename>cod_circ</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>municipio</name>
-        <rename>cod_mun</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>gid</name>
-        <rename>gid</rename>
-        <update>N</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>376</xloc>
-      <yloc>317</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>IN_stg_hogar</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <sql>SELECT estr_soc, tipo_hog, cant_pers_may14, cant_pers_men14, asentamiento, sanitaria, numero
-FROM staging.stg_hogar
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>84</xloc>
-      <yloc>417</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

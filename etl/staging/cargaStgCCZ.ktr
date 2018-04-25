@@ -77,7 +77,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_ccz</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>corregir_campos_ccz</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campos_ccz</from><to>nro_ccz_cod_mun</to><enabled>Y</enabled> </hop>  <hop> <from>nro_ccz_cod_mun</from><to>OUT_stg_barrio</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>IN_ccz</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>corregir_campos_ccz</to><enabled>N</enabled> </hop>  <hop> <from>corregir_campos_ccz</from><to>nro_ccz_cod_mun</to><enabled>N</enabled> </hop>  <hop> <from>nro_ccz_cod_mun</from><to>OUT_stg_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>nro_ccz_cod_mun</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_ccz</name>
     <type>GISFileInput</type>
@@ -100,6 +100,59 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>101</xloc>
+      <yloc>40</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>OUT_stg_barrio</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <schema>staging</schema>
+    <table>stg_ccz</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>geometria</column_name>
+          <stream_name>geometria</stream_name>
+        </field>
+        <field>
+          <column_name>cod_ccz</column_name>
+          <stream_name>ZONA_LEGAL</stream_name>
+        </field>
+        <field>
+          <column_name>cod_mun</column_name>
+          <stream_name>COD_MUN</stream_name>
+        </field>
+        <field>
+          <column_name>nro_ccz</column_name>
+          <stream_name>NRO_CCZ</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1001</xloc>
       <yloc>40</yloc>
       <draw>Y</draw>
       </GUI>
@@ -138,7 +191,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>551</xloc>
-      <yloc>40</yloc>
+      <yloc>115</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -265,59 +318,6 @@ switch (NRO_CCZ) {
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>326</xloc>
-      <yloc>40</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>OUT_stg_barrio</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <schema>staging</schema>
-    <table>stg_ccz</table>
-    <commit>1000</commit>
-    <truncate>Y</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>geometria</column_name>
-          <stream_name>geometria</stream_name>
-        </field>
-        <field>
-          <column_name>cod_ccz</column_name>
-          <stream_name>ZONA_LEGAL</stream_name>
-        </field>
-        <field>
-          <column_name>cod_mun</column_name>
-          <stream_name>COD_MUN</stream_name>
-        </field>
-        <field>
-          <column_name>nro_ccz</column_name>
-          <stream_name>NRO_CCZ</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1001</xloc>
       <yloc>40</yloc>
       <draw>Y</draw>
       </GUI>
