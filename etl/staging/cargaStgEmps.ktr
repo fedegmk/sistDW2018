@@ -59,7 +59,7 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>datawarehouse</database>
-    <port>5432</port>
+    <port>5435</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
     <servername/>
@@ -69,7 +69,7 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5435</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>url_servicio</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>url_servicio</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>url_servicio</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>url_servicio</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  <hop> <from>IN_barrios</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>corregir_campo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campo_geom</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>HTTP client</name>
     <type>HTTP</type>
@@ -99,8 +99,34 @@
     </result>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>445</xloc>
+      <xloc>508</xloc>
       <yloc>24</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IN_barrios</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <sql>select nro_barrio, geometria as geometria_barrio
+from staging.stg_barrio</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1263</xloc>
+      <yloc>286</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -424,10 +450,6 @@
           <stream_name>ESTADO_LOCAL</stream_name>
         </field>
         <field>
-          <column_name>geometria</column_name>
-          <stream_name>point</stream_name>
-        </field>
-        <field>
           <column_name>dir_emp</column_name>
           <stream_name>dir_emp</stream_name>
         </field>
@@ -435,10 +457,18 @@
           <column_name>nro_ccz</column_name>
           <stream_name>CCZ1</stream_name>
         </field>
+        <field>
+          <column_name>geometria</column_name>
+          <stream_name>geometria</stream_name>
+        </field>
+        <field>
+          <column_name>nro_barrio</column_name>
+          <stream_name>nro_barrio</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1225</xloc>
+      <xloc>1716</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -488,7 +518,72 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>965</xloc>
+      <xloc>1112</xloc>
+      <yloc>24</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>corregir_campo_geom</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>nro_barrio</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>geometria_barrio</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>NRO_DOCUMENTO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>EMPRESA</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>RUBRO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>ESTADO_LOCAL</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>geom_emp</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>dir_emp</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CCZ1</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+      <meta>        <name>geom_emp</name>
+        <rename>geometria</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1565</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -516,7 +611,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>705</xloc>
+      <xloc>810</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -544,7 +639,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>575</xloc>
+      <xloc>659</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -582,7 +677,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>835</xloc>
+      <xloc>961</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -704,7 +799,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
       </remove>      <remove>        <name>BLOQUE</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>315</xloc>
+      <xloc>357</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -794,9 +889,19 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
       </remove>      <remove>        <name>APTO</name>
       </remove>      <remove>        <name>url</name>
       </remove>      <remove>        <name>result</name>
-      </remove>    </fields>     <cluster_schema/>
+      </remove>      <meta>        <name>point</name>
+        <rename>geom_emp</rename>
+        <type>Geometry</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1095</xloc>
+      <xloc>1263</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -868,7 +973,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
       </remove>      <remove>        <name>APTO</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>575</xloc>
+      <xloc>659</xloc>
       <yloc>155</yloc>
       <draw>Y</draw>
       </GUI>
@@ -940,8 +1045,38 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
       </remove>      <remove>        <name>APTO</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>705</xloc>
+      <xloc>961</xloc>
       <yloc>155</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>join_barrio</name>
+    <type>JoinRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <cache_size>500</cache_size>
+      <main/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>geometria_barrio</leftvalue>
+ <function>GIS_CONTAINS</function>
+ <rightvalue>geom_emp</rightvalue>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1414</xloc>
+      <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1020,8 +1155,8 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>705</xloc>
-      <yloc>288</yloc>
+      <xloc>961</xloc>
+      <yloc>286</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1100,8 +1235,45 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>575</xloc>
+      <xloc>659</xloc>
       <yloc>286</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>tipo_geom</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>nro_barrio</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>geometria_barrio</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+      <meta>        <name>geometria_barrio</name>
+        <rename>geometria_barrio</rename>
+        <type>Geometry</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1263</xloc>
+      <yloc>155</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1130,7 +1302,7 @@ var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;dir
         <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>185</xloc>
+      <xloc>206</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>

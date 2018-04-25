@@ -5,6 +5,7 @@
     <description/>
     <extended_description/>
     <trans_version/>
+    <trans_status>0</trans_status>
     <directory>&#47;</directory>
     <parameters>
     </parameters>
@@ -58,7 +59,7 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>datawarehouse</database>
-    <port>5432</port>
+    <port>5435</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
     <servername/>
@@ -68,16 +69,14 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
-      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5435</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
-      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_ccz</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>corregir_campos_ccz</to><enabled>N</enabled> </hop>  <hop> <from>corregir_campos_ccz</from><to>nro_ccz_cod_mun</to><enabled>N</enabled> </hop>  <hop> <from>nro_ccz_cod_mun</from><to>OUT_stg_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>nro_ccz_cod_mun</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>IN_ccz</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>corregir_campos_ccz</to><enabled>N</enabled> </hop>  <hop> <from>corregir_campos_ccz</from><to>nro_ccz_cod_mun</to><enabled>N</enabled> </hop>  <hop> <from>nro_ccz_cod_mun</from><to>OUT_stg_ccz</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>nro_ccz_cod_mun</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_ccz</name>
     <type>GISFileInput</type>
@@ -106,7 +105,7 @@
     </step>
 
   <step>
-    <name>OUT_stg_barrio</name>
+    <name>OUT_stg_ccz</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>

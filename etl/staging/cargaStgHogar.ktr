@@ -58,7 +58,7 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>datawarehouse</database>
-    <port>5432</port>
+    <port>5435</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
     <servername/>
@@ -68,7 +68,7 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5435</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
@@ -77,7 +77,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_ech</from><to>montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>montevideo?</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>OUT_stg_hogar</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>IN_ech</from><to>montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>montevideo?</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>lkp_stg_sanit</to><enabled>Y</enabled> </hop>  <hop> <from>lkp_stg_sanit</from><to>lkp_stg_asent</to><enabled>Y</enabled> </hop>  <hop> <from>lkp_stg_asent</from><to>lkp_stg_tipo_hog</to><enabled>Y</enabled> </hop>  <hop> <from>lkp_stg_tipo_hog</from><to>lkp_stg_estr_soc</to><enabled>Y</enabled> </hop>  <hop> <from>lkp_stg_estr_soc</from><to>OUT_stg_hogar</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Dummy (do nothing)</name>
     <type>Dummy</type>
@@ -90,7 +90,7 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>408</xloc>
+      <xloc>390</xloc>
       <yloc>166</yloc>
       <draw>Y</draw>
       </GUI>
@@ -6514,7 +6514,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>64</xloc>
-      <yloc>50</yloc>
+      <yloc>42</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -6549,11 +6549,11 @@
     <fields>
         <field>
           <column_name>estr_soc</column_name>
-          <stream_name>estr_soc</stream_name>
+          <stream_name>desc_estrato</stream_name>
         </field>
         <field>
           <column_name>tipo_hog</column_name>
-          <stream_name>tipo_hog</stream_name>
+          <stream_name>desc_tipo_hog</stream_name>
         </field>
         <field>
           <column_name>pv_hum_tech</column_name>
@@ -6588,7 +6588,7 @@
           <stream_name>pv_pis_agr</stream_name>
         </field>
         <field>
-          <column_name>pv_caida_reb</column_name>
+          <column_name>pv_caida_rev</column_name>
           <stream_name>pv_caida_reb</stream_name>
         </field>
         <field>
@@ -6609,11 +6609,11 @@
         </field>
         <field>
           <column_name>asentamiento</column_name>
-          <stream_name>asentamiento</stream_name>
+          <stream_name>desc_asentamiento</stream_name>
         </field>
         <field>
           <column_name>sanitaria</column_name>
-          <stream_name>sanitaria</stream_name>
+          <stream_name>desc_sanitaria</stream_name>
         </field>
         <field>
           <column_name>cant_pers_may14</column_name>
@@ -6642,8 +6642,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>580</xloc>
-      <yloc>50</yloc>
+      <xloc>1205</xloc>
+      <yloc>42</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -9733,8 +9733,172 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>409</xloc>
-      <yloc>50</yloc>
+      <xloc>390</xloc>
+      <yloc>42</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>lkp_stg_asent</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>staging</schema>
+      <table>stg_asent</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>asentamiento</name>
+        <field>id_asentamiento</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>asentamiento</name>
+        <rename>desc_asentamiento</rename>
+        <default>&apos;S&#47;D&apos;</default>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>716</xloc>
+      <yloc>42</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>lkp_stg_estr_soc</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>staging</schema>
+      <table>stg_estr_soc</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>estr_soc</name>
+        <field>id_estrato</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>desc_estrato</name>
+        <rename>desc_estrato</rename>
+        <default>&apos;S&#47;D&apos;</default>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1042</xloc>
+      <yloc>42</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>lkp_stg_sanit</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>staging</schema>
+      <table>stg_sanit</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>sanitaria</name>
+        <field>id_sanitaria</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sanitaria</name>
+        <rename>desc_sanitaria</rename>
+        <default>&apos;S&#47;D&apos;</default>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>553</xloc>
+      <yloc>42</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>lkp_stg_tipo_hog</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>staging</schema>
+      <table>stg_tipo_hog</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>tipo_hog</name>
+        <field>id_tipo_vivienda</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>tipo_vivienda</name>
+        <rename>desc_tipo_hog</rename>
+        <default>&apos;S&#47;D&apos;</default>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>879</xloc>
+      <yloc>42</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -9761,8 +9925,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>236</xloc>
-      <yloc>50</yloc>
+      <xloc>227</xloc>
+      <yloc>42</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

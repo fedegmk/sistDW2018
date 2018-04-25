@@ -114,8 +114,6 @@ ALTER TABLE staging.stg_emps
 
 CREATE TABLE staging.stg_hogar
 (
-    estr_soc smallint NOT NULL,
-    tipo_hog smallint NOT NULL,
     pv_hum_tech smallint NOT NULL,
     pv_inund smallint NOT NULL,
     pv_pel_derrum smallint NOT NULL,
@@ -131,12 +129,14 @@ CREATE TABLE staging.stg_hogar
     cant_hog smallint NOT NULL,
     cant_pers_may14 smallint NOT NULL,
     cant_pers_men14 smallint NOT NULL,
-    asentamiento smallint NOT NULL,
-    sanitaria smallint NOT NULL,
     numero bigint NOT NULL,
     segm smallint NOT NULL,
     barrio smallint NOT NULL,
-    ccz smallint NOT NULL
+    ccz smallint NOT NULL,
+    estr_soc character varying(100) COLLATE pg_catalog."default",
+    tipo_hog character varying(100) COLLATE pg_catalog."default",
+    asentamiento character varying(5) COLLATE pg_catalog."default",
+    sanitaria character varying(50) COLLATE pg_catalog."default"
 )
 WITH (
     OIDS = FALSE
@@ -257,8 +257,8 @@ INSERT INTO staging.stg_sanit(
     id_sanitaria, sanitaria)
     VALUES
        (0,'S/D'),
-       (1,'Sí, con cisterna'),
-       (2,'Sí, sin cisterna'),
+       (1,'Sí\, con cisterna'),
+       (2,'Sí\, sin cisterna'),
        (3,'No');
   
 -- asentamiento
