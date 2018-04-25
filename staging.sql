@@ -179,3 +179,109 @@ TABLESPACE pg_default;
 
 ALTER TABLE staging.stg_segm
     OWNER to postgres;
+
+-- estrato
+
+CREATE TABLE staging.estrato_soc
+(
+    id_estrato smallint NOT NULL,
+    desc_estrato character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.estrato_soc
+    OWNER to postgres;
+    
+    
+
+INSERT INTO staging.estrato_soc(
+    id_estrato, desc_estrato)
+    VALUES
+       (0,'S/D'),
+       (1,'Nivel económico bajo'),
+       (2,'Nivel económico medio - bajo'),
+       (3,'Nivel económico medio'),
+       (4,'Nivel económico medio - alto'),
+       (5,'Nivel económico alto'),
+       (6,'Zona metropolitana');
+
+
+-- tipo hogar
+
+CREATE TABLE staging.tipo_hogar
+(
+    id_tipo_vivienda smallint NOT NULL,
+    tipo_vivienda character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.tipo_hogar
+    OWNER to postgres;
+    
+
+INSERT INTO staging.tipo_hogar(
+    id_tipo_vivienda, tipo_vivienda)
+    VALUES
+       (0,'S/D'),
+       (1,'Casa'),
+       (2,'Apartamento o casa en complejo habitacional'),
+       (3,'Apartamento en edificio de altura'),
+       (4,'Apartamento en edificio de una planta'),
+       (5,'Local no construido para vivienda');
+
+
+
+--- sanitaria
+
+CREATE TABLE staging.sanitaria
+(
+    id_sanitaria smallint NOT NULL,
+    sanitaria character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.sanitaria
+    OWNER to postgres;
+    
+
+INSERT INTO staging.sanitaria(
+    id_sanitaria, sanitaria)
+    VALUES
+       (0,'S/D'),
+       (1,'Sí, con cisterna'),
+       (2,'Sí, sin cisterna'),
+       (3,'No');
+  
+-- asentamiento
+
+CREATE TABLE staging.asentamiento
+(
+    id_asentamiento smallint NOT NULL,
+    asentamiento character varying COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE staging.asentamiento
+    OWNER to postgres;
+    
+
+INSERT INTO staging.asentamiento(
+    id_asentamiento, asentamiento)
+    VALUES
+       (0,'S/D'),
+       (1,'Sí'),
+       (2,'NO');    
+    
+    
