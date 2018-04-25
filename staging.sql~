@@ -182,7 +182,7 @@ ALTER TABLE staging.stg_segm
 
 -- estrato
 
-CREATE TABLE staging.stg_estr_soc
+CREATE TABLE staging.estrato_soc
 (
     id_estrato smallint NOT NULL,
     desc_estrato character varying COLLATE pg_catalog."default"
@@ -192,12 +192,12 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE staging.stg_estr_soc
+ALTER TABLE staging.estrato_soc
     OWNER to postgres;
     
     
 
-INSERT INTO staging.stg_estr_soc(
+INSERT INTO staging.estrato_soc(
     id_estrato, desc_estrato)
     VALUES
        (0,'S/D'),
@@ -211,7 +211,7 @@ INSERT INTO staging.stg_estr_soc(
 
 -- tipo hogar
 
-CREATE TABLE staging.stg_tipo_hog
+CREATE TABLE staging.tipo_hogar
 (
     id_tipo_vivienda smallint NOT NULL,
     tipo_vivienda character varying COLLATE pg_catalog."default"
@@ -221,11 +221,11 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE staging.stg_tipo_hog
+ALTER TABLE staging.tipo_hogar
     OWNER to postgres;
     
 
-INSERT INTO staging.stg_tipo_hog(
+INSERT INTO staging.tipo_hogar(
     id_tipo_vivienda, tipo_vivienda)
     VALUES
        (0,'S/D'),
@@ -239,7 +239,7 @@ INSERT INTO staging.stg_tipo_hog(
 
 --- sanitaria
 
-CREATE TABLE staging.stg_sanit
+CREATE TABLE staging.sanitaria
 (
     id_sanitaria smallint NOT NULL,
     sanitaria character varying COLLATE pg_catalog."default"
@@ -249,11 +249,11 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE staging.stg_sanit
+ALTER TABLE staging.sanitaria
     OWNER to postgres;
     
 
-INSERT INTO staging.stg_sanit(
+INSERT INTO staging.sanitaria(
     id_sanitaria, sanitaria)
     VALUES
        (0,'S/D'),
@@ -263,7 +263,7 @@ INSERT INTO staging.stg_sanit(
   
 -- asentamiento
 
-CREATE TABLE staging.stg_asent
+CREATE TABLE staging.asentamiento
 (
     id_asentamiento smallint NOT NULL,
     asentamiento character varying COLLATE pg_catalog."default"
@@ -273,11 +273,11 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE staging.stg_asent
+ALTER TABLE staging.asentamiento
     OWNER to postgres;
     
 
-INSERT INTO staging.stg_asent(
+INSERT INTO staging.asentamiento(
     id_asentamiento, asentamiento)
     VALUES
        (0,'S/D'),
