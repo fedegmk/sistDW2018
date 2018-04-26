@@ -58,7 +58,7 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>datawarehouse</database>
-    <port>5435</port>
+    <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
     <servername/>
@@ -68,7 +68,7 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5435</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
       <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
@@ -240,6 +240,7 @@ TURNO_HORARIO = replace(TURNO_HORARIO,&quot;JUEVES&quot;,&quot;JUE&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;VIERNES&quot;,&quot;VIE&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;SABADO[S]&quot;,&quot;SAB&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;DOMINGO[S]&quot;,&quot;DOM&quot;);
+TURNO_HORARIO = replace(TURNO_HORARIO,&quot; Y &quot;,&quot; &quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;,&quot;,&quot;&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;CON FERIADOS LABORABLES:&quot;,&quot;&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;Matutino&quot;,&quot;MAT&quot;);
@@ -247,10 +248,14 @@ TURNO_HORARIO = replace(TURNO_HORARIO,&quot;Vespertino&quot;,&quot;VES&quot;);
 TURNO_HORARIO = replace(TURNO_HORARIO,&quot;Nocturno&quot;,&quot;NOC&quot;);
 
 &#47;&#47; preparar el string final
-var regex = &#47;([\w\s]*).*(\d\d).*(\d\d).*&#47;g;
+&#47;&#47;regex = &#47;([\w\s]*).*(\d\d).*(\d\d).*&#47;g;
+regex = &#47;([\w\s]*)(MAT|VES|NOC).*(\d\d).*(\d\d).*&#47;g;
 var matches = regex.exec(TURNO_HORARIO);
+matches[1] = replace(trim(matches[1]),&quot; &quot;,&quot;-&quot;);
 
-var TURNO_HORARIO_1 = matches[1] + &quot; &quot; + matches[2] + &quot;-&quot; + matches[3];</jsScript_script>
+
+var TURNO_HORARIO_1 = matches[1] + &quot; &quot; + matches[2] + &quot; &quot; + matches[3] + &quot;-&quot; + matches[4];
+</jsScript_script>
       </jsScript>      <jsScript>        <jsScript_type>-1</jsScript_type>
         <jsScript_name>replace_Sample</jsScript_name>
         <jsScript_script>&#47;&#47; Replaces Strings inside the given Variable.
