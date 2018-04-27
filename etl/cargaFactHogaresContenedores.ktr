@@ -77,34 +77,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>modificar_valores_pv</from><to>normalizar</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>modificar_valores_pv</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  <hop> <from>normalizar</from><to>filtrar_campos</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_campos</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>eliminar_dup 2</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup 2</from><to>ordenar 3</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 3</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>IN_contenedor_residuos</from><to>ordenar 4</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 4</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>OUT_hogar_contenedor</to><enabled>Y</enabled> </hop>  </order>
-  <step>
-    <name>IN_contenedor_residuos</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <sql>select cr.id_contenedor_res, sc.nro_barrio barrio_cont, sc.nro_ccz ccz_mun_cont, sc.nro_segm
-from contenedor_residuos cr
-inner join staging.stg_cont sc on sc.gid = cr.gid</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>786</xloc>
-      <yloc>173</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
+  <hop> <from>modificar_valores_pv</from><to>normalizar</to><enabled>Y</enabled> </hop>  <hop> <from>normalizar</from><to>corregir_campos</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campos</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  <hop> <from>IN_contenedor_residuos</from><to>ordenar 3</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 3</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>OUT_hogar_contenedor</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>modificar_valores_pv</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_stg_hogar</name>
     <type>TableInput</type>
@@ -217,8 +190,8 @@ inner join hogar h on h.numero = sh.numero </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1104</xloc>
-      <yloc>104</yloc>
+      <xloc>1069</xloc>
+      <yloc>99</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -235,76 +208,20 @@ inner join hogar h on h.numero = sh.numero </sql>
            </partitioning>
       <count_rows>N</count_rows>
       <count_field/>
-    <fields>      <field>        <name>pv_caida_rev</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_hum_tech</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_inund</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_pel_derrum</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_hum_cim</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_gotera</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_mur_agr</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_ab_mal_est</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_pis_agr</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_cielor_desp</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_poca_luz_sol</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>pv_esc_vent</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>cant_pers_may14</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>cant_pers_men14</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>segm</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>barrio</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>ccz</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_hogar</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>256</xloc>
-      <yloc>35</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>eliminar_dup 2</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
     <fields>      <field>        <name>id_hogar</name>
         <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>prob_vivienda</name>
         <case_insensitive>N</case_insensitive>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>786</xloc>
-      <yloc>35</yloc>
+      <xloc>933</xloc>
+      <yloc>72</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>filtrar_campos</name>
+    <name>corregir_campos</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -337,6 +254,22 @@ inner join hogar h on h.numero = sh.numero </sql>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>id_contenedor_res</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>barrio_cont</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>ccz_mun_cont</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>nro_segm</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>typefield</name>
         <rename/>
         <length>-2</length>
@@ -346,8 +279,7 @@ inner join hogar h on h.numero = sh.numero </sql>
         <length>-2</length>
         <precision>-2</precision>
       </field>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>typefield</name>
-      </remove>      <meta>        <name>barrio</name>
+      <meta>        <name>barrio</name>
         <rename>barrio_hog</rename>
         <type>Integer</type>
         <length>-2</length>
@@ -369,35 +301,8 @@ inner join hogar h on h.numero = sh.numero </sql>
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>574</xloc>
-      <yloc>35</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>INNER</join_type>
-<step1>ordenar 3</step1>
-<step2>ordenar 4</step2>
-    <keys_1>
-      <key>segm</key>
-    </keys_1>
-    <keys_2>
-      <key>nro_segm</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>998</xloc>
-      <yloc>104</yloc>
+      <xloc>721</xloc>
+      <yloc>72</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -503,8 +408,8 @@ pv_esc_vent = (pv_esc_vent == 1) ? 9 : 0;</jsScript_script>
         <replace>Y</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>362</xloc>
-      <yloc>35</yloc>
+      <xloc>509</xloc>
+      <yloc>72</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -558,125 +463,8 @@ pv_esc_vent = (pv_esc_vent == 1) ? 9 : 0;</jsScript_script>
         <norm>prob_vivienda</norm>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>468</xloc>
-      <yloc>35</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>ordenar</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
-      <prefix>out</prefix>
-      <sort_size/>
-      <free_memory>25</free_memory>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>pv_caida_rev</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_hum_tech</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_inund</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_pel_derrum</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_hum_cim</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_gotera</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_mur_agr</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_ab_mal_est</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_pis_agr</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_cielor_desp</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_poca_luz_sol</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>pv_esc_vent</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>cant_pers_may14</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>cant_pers_men14</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>segm</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>barrio</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>ccz</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>id_hogar</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>150</xloc>
-      <yloc>35</yloc>
+      <xloc>615</xloc>
+      <yloc>72</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -712,14 +500,68 @@ pv_esc_vent = (pv_esc_vent == 1) ? 9 : 0;</jsScript_script>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>680</xloc>
-      <yloc>35</yloc>
+      <xloc>827</xloc>
+      <yloc>72</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>ordenar 3</name>
+    <name>IN_contenedor_residuos</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>localhost_dw</connection>
+    <sql>select cr.id_contenedor_res, sc.nro_barrio barrio_cont, sc.nro_ccz ccz_mun_cont, sc.nro_segm
+from contenedor_residuos cr
+inner join staging.stg_cont sc on sc.gid = cr.gid</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>132</xloc>
+      <yloc>174</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>join</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>INNER</join_type>
+<step1>ordenar</step1>
+<step2>ordenar 3</step2>
+    <keys_1>
+      <key>segm</key>
+    </keys_1>
+    <keys_2>
+      <key>nro_segm</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>377</xloc>
+      <yloc>103</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ordenar</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -744,14 +586,14 @@ pv_esc_vent = (pv_esc_vent == 1) ? 9 : 0;</jsScript_script>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>892</xloc>
-      <yloc>35</yloc>
+      <xloc>270</xloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>ordenar 4</name>
+    <name>ordenar 3</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -776,8 +618,8 @@ pv_esc_vent = (pv_esc_vent == 1) ? 9 : 0;</jsScript_script>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>892</xloc>
-      <yloc>173</yloc>
+      <xloc>271</xloc>
+      <yloc>172</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

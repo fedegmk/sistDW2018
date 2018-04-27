@@ -78,6 +78,20 @@ ALTER SEQUENCE public.empresa_cont_id_seq
 
 GRANT ALL ON SEQUENCE public.empresa_cont_id_seq TO postgres;   
 
+-- secuencia de claves subrogadas de recolección cont.
+
+CREATE SEQUENCE public.rec_cont_sec_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.rec_cont_sec_id_seq
+    OWNER TO postgres;
+
+GRANT ALL ON SEQUENCE public.rec_cont_sec_id_seq TO postgres;
+
 -- dim tiempo
     
 CREATE TABLE public.tiempo
@@ -132,7 +146,7 @@ ALTER TABLE public.problema_vivienda
 
 CREATE TABLE public.hogar
 (
-    id_hogar smallint NOT NULL DEFAULT nextval('hogar_id_seq'::regclass),
+    id_hogar bigint NOT NULL DEFAULT nextval('hogar_id_seq'::regclass),
     tipo_hogar character varying(50) COLLATE pg_catalog."default" NOT NULL,
     sanitaria character varying(50) COLLATE pg_catalog."default" NOT NULL,
     asentamiento character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -154,7 +168,7 @@ ALTER TABLE public.hogar
 
 CREATE TABLE public.empresa
 (
-    id_empresa smallint NOT NULL DEFAULT nextval('empresa_id_seq'::regclass),
+    id_empresa bigint NOT NULL DEFAULT nextval('empresa_id_seq'::regclass),
     tipo_empresa character varying(50) COLLATE pg_catalog."default" NOT NULL,
     estado_hab character varying(50) COLLATE pg_catalog."default" NOT NULL,
     rut character varying(50) COLLATE pg_catalog."default" NOT NULL DEFAULT 'S/D'::character varying,
@@ -207,7 +221,7 @@ ALTER TABLE public.barrio
 
 CREATE TABLE public.contenedor_residuos
 (
-    id_contenedor_res smallint NOT NULL DEFAULT nextval('cont_id_seq'::regclass),
+    id_contenedor_res bigint NOT NULL DEFAULT nextval('cont_id_seq'::regclass),
     circuito character varying(50) COLLATE pg_catalog."default" NOT NULL,
     municipio character varying(50) COLLATE pg_catalog."default" NOT NULL,
     gid integer NOT NULL,
@@ -263,13 +277,14 @@ ALTER TABLE public.contenedor_especial
 
 CREATE TABLE public.recoleccion_cont_residuos
 (
-    id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_ccz_municipio SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
-    id_barrio SMALLINT NOT NULL REFERENCES barrio (id_barrio),
-    id_tiempo SMALLINT NOT NULL REFERENCES tiempo (id_tiempo),
-    id_horario SMALLINT NOT NULL REFERENCES horario (id_horario),
-    frec_recoleccion INTEGER DEFAULT 0 NOT NULL,
-    CONSTRAINT recoleccion_cont_residuos_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio,id_barrio,id_tiempo,id_horario)
+    id_contenedor_res bigint NOT NULL,
+    id_ccz_municipio smallint NOT NULL,
+    id_barrio smallint NOT NULL,
+    id_tiempo smallint NOT NULL,
+    id_horario smallint NOT NULL,
+    frec_recoleccion integer NOT NULL DEFAULT 0,
+    id_rec_cont_residuos bigint NOT NULL DEFAULT nextval('hogar_cont_id_seq'::regclass),
+    CONSTRAINT recoleccion_cont_residuos_pkey PRIMARY KEY (id_rec_cont_residuos)
 )
 WITH (
     OIDS = FALSE
@@ -283,17 +298,17 @@ ALTER TABLE public.recoleccion_cont_residuos
 
 CREATE TABLE public.hogar_contenedor
 (
+    id_contenedor_res bigint NOT NULL,
+    id_ccz_municipio_cont smallint NOT NULL,
+    id_barrio_cont smallint NOT NULL,
+    id_hogar bigint NOT NULL,
+    id_ccz_municipio_hogar smallint NOT NULL,
+    id_barrio_hogar smallint NOT NULL,
+    id_problema_vivienda smallint NOT NULL,
+    cant_pers_mayor_14 integer NOT NULL DEFAULT 0,
+    cant_pers_menor_14 integer NOT NULL DEFAULT 0,
     id_hogar_contenedor bigint NOT NULL DEFAULT nextval('hogar_cont_id_seq'::regclass),
-    id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
-    id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
-    id_hogar SMALLINT NOT NULL REFERENCES hogar (id_hogar),
-    id_ccz_municipio_hogar SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
-    id_barrio_hogar SMALLINT NOT NULL REFERENCES barrio (id_barrio),
-    id_problema_vivienda SMALLINT NOT NULL REFERENCES problema_vivienda(id_problema_vivienda),
-    cant_pers_mayor_14 INTEGER DEFAULT 0 NOT NULL,
-    cant_pers_menor_14 INTEGER DEFAULT 0 NOT NULL,
-    CONSTRAINT hogar_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont, id_barrio_cont,id_hogar,id_ccz_municipio_hogar, id_barrio_hogar,id_problema_vivienda)
+    CONSTRAINT hogar_contenedor_pkey PRIMARY KEY (id_hogar_contenedor)
 )
 WITH (
     OIDS = FALSE
@@ -308,10 +323,10 @@ ALTER TABLE public.hogar_contenedor
 CREATE TABLE public.empresa_contenedor
 (
     id_empresa_contenedor bigint NOT NULL DEFAULT nextval('empresa_cont_id_seq'::regclass),
-    id_contenedor_res SMALLINT NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
+    id_contenedor_res bigint NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
     id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
     id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
-    id_empresa SMALLINT NOT NULL REFERENCES empresa (id_empresa),
+    id_empresa bigint NOT NULL REFERENCES empresa (id_empresa),
     id_ccz_municipio_empresa SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
     id_barrio_empresa SMALLINT NOT NULL REFERENCES barrio (id_barrio),
     CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont,id_barrio_cont,id_empresa,id_ccz_municipio_empresa,id_barrio_empresa)
