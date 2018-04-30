@@ -58,7 +58,7 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>datawarehouse</database>
-    <port>5435</port>
+    <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
     <servername/>
@@ -68,14 +68,16 @@
       <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
       <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5435</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>Y</attribute></attribute>
       <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
       <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
       <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
   <order>
-  <hop> <from>preparar_tuplas</from><to>corregir_campos</to><enabled>N</enabled> </hop>  <hop> <from>corregir_campos</from><to>OUT_stg_segm</to><enabled>N</enabled> </hop>  <hop> <from>IN_segm</from><to>en_montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>OUT_stg_segm</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>en_montevideo?</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>OUT_stg_segm</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>en_montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>IN_segm</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Dummy (do nothing)</name>
     <type>Dummy</type>
@@ -88,8 +90,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>411</xloc>
-      <yloc>143</yloc>
+      <xloc>705</xloc>
+      <yloc>146</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -116,7 +118,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>53</xloc>
-      <yloc>35</yloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -160,46 +162,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>769</xloc>
-      <yloc>35</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>corregir_campos</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>geometria</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>MULTIPOLYGON (((</replace_string>
-        <replace_by_string>POLYGON ((</replace_by_string>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>geometria</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>)))</replace_string>
-        <replace_by_string>))</replace_by_string>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>603</xloc>
-      <yloc>113</yloc>
+      <xloc>868</xloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -226,8 +190,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>232</xloc>
-      <yloc>35</yloc>
+      <xloc>542</xloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -323,8 +287,153 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>411</xloc>
-      <yloc>35</yloc>
+      <xloc>705</xloc>
+      <yloc>34</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>eliminar_dup</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+    <fields>      <field>        <name>the_geom</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>AREA</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>PERIMETER</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>DEPTO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>SECCION</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>SEGMENTO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>LOCALIDAD</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CODSEC</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CODSEG</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CODLOC</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>NOMBDEPTO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>NOMBLOC</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CDEPTO_ISO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CLOC_ISO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>379</xloc>
+      <yloc>34</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ordenar</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
+      <prefix>out</prefix>
+      <sort_size/>
+      <free_memory>25</free_memory>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>the_geom</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>AREA</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>PERIMETER</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>DEPTO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>SECCION</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>SEGMENTO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>LOCALIDAD</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>CODSEC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>CODSEG</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>CODLOC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>NOMBDEPTO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>NOMBLOC</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>CDEPTO_ISO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>CLOC_ISO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>216</xloc>
+      <yloc>34</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

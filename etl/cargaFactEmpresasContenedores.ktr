@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_stg_emps_cont_distance&lt;50</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>IN_empresas</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>ordenar 3</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 3</from><to>join 2</to><enabled>Y</enabled> </hop>  <hop> <from>IN_contenedor_residuos</from><to>ordenar 4</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 4</from><to>join 2</to><enabled>Y</enabled> </hop>  <hop> <from>join 2</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>OUT_empresa_contenedor</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_emps</from><to>corregir_geometria</to><enabled>N</enabled> </hop>  <hop> <from>corregir_geometria</from><to>buffer</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_cont</from><to>corregir_geometria 2</to><enabled>N</enabled> </hop>  <hop> <from>corregir_geometria 2</from><to>Join Rows (cartesian product)</to><enabled>N</enabled> </hop>  <hop> <from>buffer</from><to>Join Rows (cartesian product)</to><enabled>N</enabled> </hop>  </order>
+  <hop> <from>IN_stg_emps_cont_distance&lt;50</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>IN_empresas</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>ordenar 3</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 3</from><to>join 2</to><enabled>Y</enabled> </hop>  <hop> <from>IN_contenedor_residuos</from><to>ordenar 4</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 4</from><to>join 2</to><enabled>Y</enabled> </hop>  <hop> <from>join 2</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>ordenar 5</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 5</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>OUT_empresa_contenedor</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_contenedor_residuos</name>
     <type>TableInput</type>
@@ -116,7 +116,7 @@ from contenedor_residuos</sql>
            <schema_name/>
            </partitioning>
     <connection>localhost_dw</connection>
-    <sql>select razon_social, id_empresa
+    <sql>select *
 from empresa
 </sql>
     <limit>0</limit>
@@ -144,10 +144,10 @@ from empresa
            </partitioning>
     <connection>localhost_dw</connection>
     <sql>select st_distance(se.geometria::geometry, sc.geometria::geometry) as distance, 
-	    se.nro_ccz as nro_ccz_emp, se.nro_barrio nro_barrio_emp, se.razon_soc,
+	    se.nro_ccz as nro_ccz_emp, se.nro_barrio nro_barrio_emp, se.razon_soc, se.rut, se.dir_emp, se.estado_hab, se.tipo_emp,
         sc.nro_ccz as nro_ccz_cont, sc.nro_barrio nro_barrio_cont, sc.gid
 from staging.stg_emps se, staging.stg_cont sc
-where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
+where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -156,8 +156,8 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>96</xloc>
-      <yloc>304</yloc>
+      <xloc>74</xloc>
+      <yloc>89</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -306,9 +306,17 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
 <step2>ordenar 2</step2>
     <keys_1>
       <key>razon_soc</key>
+      <key>rut</key>
+      <key>dir_emp</key>
+      <key>tipo_emp</key>
+      <key>estado_hab</key>
     </keys_1>
     <keys_2>
       <key>razon_social</key>
+      <key>rut</key>
+      <key>direccion</key>
+      <key>tipo_empresa</key>
+      <key>estado_hab</key>
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -368,11 +376,31 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
+      <field>
+        <name>rut</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>dir_emp</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>tipo_emp</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>estado_hab</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>230</xloc>
-      <yloc>304</yloc>
+      <xloc>208</xloc>
+      <yloc>89</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -397,6 +425,26 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
     <fields>
       <field>
         <name>razon_social</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>rut</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>direccion</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>tipo_empresa</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>estado_hab</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
@@ -474,187 +522,8 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt; 50
     </step>
 
   <step>
-    <name>IN_stg_emps</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <sql>select se.nro_ccz as nro_ccz_emp, se.nro_barrio nro_barrio_emp, se.razon_soc, se.geometria as geo_emp
-from staging.stg_emps se
-
-
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>81</xloc>
-      <yloc>19</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>corregir_geometria</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>nro_ccz_emp</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>nro_barrio_emp</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>razon_soc</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>geo_emp</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-      <meta>        <name>geo_emp</name>
-        <rename>geo_emp</rename>
-        <type>Geometry</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>227</xloc>
-      <yloc>18</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>IN_stg_cont</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>localhost_dw</connection>
-    <sql>select sc.gid, sc.geometria as geo_cont, sc.nro_barrio, sc.nro_ccz
-from staging.stg_cont sc</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>85</xloc>
-      <yloc>105</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>corregir_geometria 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>gid</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>geo_cont</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>nro_barrio</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>nro_ccz</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-      <meta>        <name>geo_cont</name>
-        <rename>geo_cont</rename>
-        <type>Geometry</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>231</xloc>
-      <yloc>92</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>buffer</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-       <calculation><field_name>geo_emp_buffer</field_name>
-<calc_type>GEOMETRY_BUFFER</calc_type>
-<field_a>geo_emp</field_a>
-<field_b/>
-<field_c/>
-<field_d/>
-<field_e/>
-<value_type>Geometry</value_type>
-<value_length>500000</value_length>
-<value_precision>-1</value_precision>
-<remove>N</remove>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<currency_symbol/>
-</calculation>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>392</xloc>
-      <yloc>23</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Join Rows (cartesian product)</name>
-    <type>JoinRows</type>
+    <name>ordenar 5</name>
+    <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
     <copies>1</copies>
@@ -664,20 +533,79 @@ from staging.stg_cont sc</sql>
            </partitioning>
       <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
-      <cache_size>500</cache_size>
-      <main/>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>geo_emp_buffer</leftvalue>
- <function>GIS_CONTAINS</function>
- <rightvalue>geo_cont</rightvalue>
- </condition>
-    </compare>
+      <sort_size/>
+      <free_memory>25</free_memory>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>nro_ccz_emp</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>nro_barrio_emp</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>nro_ccz_cont</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>nro_barrio_cont</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>id_empresa</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>id_contenedor_res</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+    </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>545</xloc>
-      <yloc>48</yloc>
+      <xloc>759</xloc>
+      <yloc>239</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>eliminar_dup</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+    <fields>      <field>        <name>nro_ccz_emp</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_barrio_emp</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_ccz_cont</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_barrio_cont</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_empresa</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_contenedor_res</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>893</xloc>
+      <yloc>228</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

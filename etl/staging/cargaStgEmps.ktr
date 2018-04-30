@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>url_servicio</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  <hop> <from>IN_barrios</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>corregir_campo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campo_geom</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>url_servicio</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>url_servicio</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_barrio</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>corregir_campo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>eliminar_dup 2</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campo_geom</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup 2</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>url_servicio</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>HTTP client</name>
     <type>HTTP</type>
@@ -106,7 +106,7 @@
     </step>
 
   <step>
-    <name>IN_barrios</name>
+    <name>IN_stg_barrio</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -399,7 +399,7 @@ from staging.stg_barrio</sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>56</xloc>
+      <xloc>55</xloc>
       <yloc>24</yloc>
       <draw>Y</draw>
       </GUI>
@@ -600,7 +600,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
            <schema_name/>
            </partitioning>
 <send_true_to>extraer_coordenadas</send_true_to>
-<send_false_to>filtrar_columnas 4</send_false_to>
+<send_false_to>Dummy (do nothing) 2</send_false_to>
     <compare>
 <condition>
  <negated>Y</negated>
@@ -628,7 +628,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
            <schema_name/>
            </partitioning>
 <send_true_to>existe_num_en_via?</send_true_to>
-<send_false_to>filtrar_columnas 3</send_false_to>
+<send_false_to>Dummy (do nothing)</send_false_to>
     <compare>
 <condition>
  <negated>Y</negated>
@@ -1309,7 +1309,81 @@ var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;dir
     </step>
 
   <step>
-    <name>ordenar</name>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>505</xloc>
+      <yloc>155</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing) 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>817</xloc>
+      <yloc>171</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>eliminar_dup 2</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+    <fields>      <field>        <name>nro_barrio</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>geometria_barrio</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>NRO_DOCUMENTO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>EMPRESA</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>RUBRO</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>ESTADO_LOCAL</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>geometria</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>dir_emp</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>CCZ1</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1716</xloc>
+      <yloc>155</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>ordenar 2</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1327,6 +1401,16 @@ var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;dir
       <unique_rows>N</unique_rows>
     <fields>
       <field>
+        <name>nro_barrio</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
+        <name>geometria_barrio</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
         <name>NRO_DOCUMENTO</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
@@ -1337,37 +1421,7 @@ var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;dir
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>FINGRESO</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
         <name>RUBRO</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>NRO_HAB</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>RALOCA_ID</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>DIR_LOCAL</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>CCZ</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>GIROS</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
@@ -1377,133 +1431,24 @@ var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;dir
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>FDESDE_HAB</name>
+        <name>geometria</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>FHASTA_HAB</name>
+        <name>dir_emp</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>NOMBRE_COMERCIAL</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>OBSERVACIONES</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>COMPLEJO</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>VIA_VIA</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>NOM_VIA</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>NRO_PUERTA</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>LETRA</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>APTO</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>PLANTA</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>BLOQUE</name>
+        <name>CCZ1</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>55</xloc>
-      <yloc>155</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>eliminar_dup</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-    <fields>      <field>        <name>NRO_DOCUMENTO</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>EMPRESA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>FINGRESO</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>RUBRO</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>NRO_HAB</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>RALOCA_ID</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>DIR_LOCAL</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>CCZ</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>GIROS</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>ESTADO_LOCAL</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>FDESDE_HAB</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>FHASTA_HAB</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>NOMBRE_COMERCIAL</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>OBSERVACIONES</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>COMPLEJO</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>VIA_VIA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>NOM_VIA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>NRO_PUERTA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>LETRA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>APTO</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>PLANTA</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>BLOQUE</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>206</xloc>
+      <xloc>1565</xloc>
       <yloc>155</yloc>
       <draw>Y</draw>
       </GUI>

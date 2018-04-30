@@ -77,9 +77,9 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_barrios</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_cont</from><to>tipo_geom 2</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>UP_stg_cont</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>IN_stg_barrio</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_cont</from><to>tipo_geom 2</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>UP_stg_cont</to><enabled>Y</enabled> </hop>  </order>
   <step>
-    <name>IN_barrios</name>
+    <name>IN_stg_barrio</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>

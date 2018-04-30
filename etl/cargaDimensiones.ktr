@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_stg_ccz</from><to>OUT_ccz_mun</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_barrio</from><to>OUT_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_emps</from><to>OUT_empresa</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_conts</from><to>OUT_contenedor_residuos</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>OUT_hogar</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_emps</from><to>Table output</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_conts</from><to>Table output 2</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>Table output 3</to><enabled>N</enabled> </hop>  </order>
+  <hop> <from>IN_stg_ccz</from><to>OUT_ccz_mun</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_barrio</from><to>OUT_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_emps</from><to>OUT_empresa</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_conts</from><to>OUT_contenedor_residuos</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>OUT_hogar</to><enabled>N</enabled> </hop>  <hop> <from>IN_stg_emps</from><to>Table output</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_conts</from><to>Table output 2</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_hogar</from><to>Table output 3</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_stg_barrio</name>
     <type>TableInput</type>
