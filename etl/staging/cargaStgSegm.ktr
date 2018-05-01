@@ -77,7 +77,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>en_montevideo?</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas</from><to>OUT_stg_segm</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>en_montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>IN_segm</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>preparar_tuplas</from><to>OUT_stg_segm</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar</from><to>eliminar_dup</to><enabled>Y</enabled> </hop>  <hop> <from>IN_segm</from><to>en_montevideo?</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>ordenar</to><enabled>Y</enabled> </hop>  <hop> <from>en_montevideo?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup</from><to>clave_secc_segmento</to><enabled>Y</enabled> </hop>  <hop> <from>clave_secc_segmento</from><to>preparar_tuplas</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Dummy (do nothing)</name>
     <type>Dummy</type>
@@ -90,8 +90,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>705</xloc>
-      <yloc>146</yloc>
+      <xloc>276</xloc>
+      <yloc>139</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -157,138 +157,13 @@
         </field>
         <field>
           <column_name>num_segm</column_name>
-          <stream_name>SEGMENTO</stream_name>
+          <stream_name>secc_segm</stream_name>
         </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>868</xloc>
-      <yloc>34</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>en_montevideo?</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>preparar_tuplas</send_true_to>
-<send_false_to>Dummy (do nothing)</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>DEPTO</leftvalue>
- <function>=</function>
- <rightvalue/>
- <value><name>constant</name><type>Integer</type><text>1</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>#;-#</mask></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>542</xloc>
-      <yloc>34</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>preparar_tuplas</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>the_geom</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>AREA</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>PERIMETER</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>DEPTO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>SECCION</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>SEGMENTO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOCALIDAD</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CODSEC</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CODSEG</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CODLOC</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>NOMBDEPTO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>NOMBLOC</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CDEPTO_ISO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CLOC_ISO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>AREA</name>
-      </remove>      <remove>        <name>PERIMETER</name>
-      </remove>      <remove>        <name>DEPTO</name>
-      </remove>      <remove>        <name>SECCION</name>
-      </remove>      <remove>        <name>LOCALIDAD</name>
-      </remove>      <remove>        <name>CODSEC</name>
-      </remove>      <remove>        <name>CODSEG</name>
-      </remove>      <remove>        <name>CODLOC</name>
-      </remove>      <remove>        <name>NOMBDEPTO</name>
-      </remove>      <remove>        <name>NOMBLOC</name>
-      </remove>      <remove>        <name>CDEPTO_ISO</name>
-      </remove>      <remove>        <name>CLOC_ISO</name>
-      </remove>      <meta>        <name>the_geom</name>
-        <rename>geometria</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>705</xloc>
-      <yloc>34</yloc>
+      <xloc>917</xloc>
+      <yloc>55</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -297,7 +172,7 @@
     <name>eliminar_dup</name>
     <type>Unique</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -335,8 +210,8 @@
         <case_insensitive>N</case_insensitive>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>379</xloc>
-      <yloc>34</yloc>
+      <xloc>509</xloc>
+      <yloc>44</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -432,8 +307,167 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>216</xloc>
-      <yloc>34</yloc>
+      <xloc>346</xloc>
+      <yloc>44</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>preparar_tuplas</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>the_geom</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>AREA</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>PERIMETER</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>DEPTO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>SECCION</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>SEGMENTO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>LOCALIDAD</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CODSEC</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CODSEG</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CODLOC</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>NOMBDEPTO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>NOMBLOC</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CDEPTO_ISO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CLOC_ISO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>secc_segm</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>AREA</name>
+      </remove>      <remove>        <name>PERIMETER</name>
+      </remove>      <remove>        <name>DEPTO</name>
+      </remove>      <remove>        <name>SECCION</name>
+      </remove>      <remove>        <name>LOCALIDAD</name>
+      </remove>      <remove>        <name>CODSEC</name>
+      </remove>      <remove>        <name>CODSEG</name>
+      </remove>      <remove>        <name>CODLOC</name>
+      </remove>      <remove>        <name>NOMBDEPTO</name>
+      </remove>      <remove>        <name>NOMBLOC</name>
+      </remove>      <remove>        <name>CDEPTO_ISO</name>
+      </remove>      <remove>        <name>CLOC_ISO</name>
+      </remove>      <meta>        <name>the_geom</name>
+        <rename>geometria</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>754</xloc>
+      <yloc>55</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>clave_secc_segmento</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var secc_segm = parseInt(SECCION + &apos;&apos; + SEGMENTO);</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>secc_segm</name>
+        <rename>secc_segm</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>653</xloc>
+      <yloc>121</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>en_montevideo?</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>ordenar</send_true_to>
+<send_false_to>Dummy (do nothing)</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>DEPTO</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>Integer</type><text>1</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>#;-#</mask></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>205</xloc>
+      <yloc>38</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
