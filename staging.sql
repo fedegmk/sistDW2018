@@ -73,7 +73,7 @@ CREATE TABLE staging.stg_cont
     nro_barrio smallint NOT NULL DEFAULT 0,
     nro_ccz smallint NOT NULL DEFAULT 0,
     gid integer NOT NULL,
-    nro_segm integer NOT NULL DEFAULT 0,
+    nro_segm bigint NOT NULL DEFAULT 0,
     geo_cont geometry
 )
 WITH (
@@ -96,9 +96,9 @@ CREATE TABLE staging.stg_emps
     estado_hab character varying(50) COLLATE pg_catalog."default",
     rut character varying(50) COLLATE pg_catalog."default",
     geometria character varying COLLATE pg_catalog."default",
-    geo_emp geometry,
     nro_ccz integer NOT NULL DEFAULT 0,
-    nro_barrio integer NOT NULL DEFAULT 0
+    nro_barrio integer NOT NULL DEFAULT 0,
+    cod_empresa character varying(150) COLLATE pg_catalog."default"
 )
 WITH (
     OIDS = FALSE
@@ -130,7 +130,7 @@ CREATE TABLE staging.stg_hogar
     cant_pers_may14 smallint NOT NULL,
     cant_pers_men14 smallint NOT NULL,
     numero bigint NOT NULL,
-    segm smallint NOT NULL,
+    segm bigint NOT NULL,
     barrio smallint NOT NULL,
     ccz smallint NOT NULL,
     estr_soc character varying(100) COLLATE pg_catalog."default",
@@ -169,7 +169,7 @@ ALTER TABLE staging.stg_mun
 
 CREATE TABLE staging.stg_segm
 (
-    num_segm smallint NOT NULL,
+    num_segm bigint NOT NULL,
     geometria character varying COLLATE pg_catalog."default"
 )
 WITH (

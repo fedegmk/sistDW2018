@@ -174,7 +174,8 @@ CREATE TABLE public.empresa
     rut character varying(50) COLLATE pg_catalog."default" NOT NULL DEFAULT 'S/D'::character varying,
     razon_social character varying(100) COLLATE pg_catalog."default" NOT NULL,
     direccion character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT empresa_pkey PRIMARY KEY (id_empresa)
+    cod_empresa character varying(150) COLLATE pg_catalog."default" DEFAULT 0,
+    CONSTRAINT empresa_pkey PRIMARY KEY (id_empresa)    CONSTRAINT empresa_pkey PRIMARY KEY (id_empresa)
 )
 WITH (
     OIDS = FALSE
