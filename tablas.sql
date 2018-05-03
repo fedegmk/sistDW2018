@@ -175,6 +175,7 @@ CREATE TABLE public.empresa
     razon_social character varying(100) COLLATE pg_catalog."default" NOT NULL,
     direccion character varying(100) COLLATE pg_catalog."default" NOT NULL,
     cod_empresa character varying(150) COLLATE pg_catalog."default" DEFAULT 0,
+    nro_local integer NOT NULL DEFAULT 0,
     CONSTRAINT empresa_pkey PRIMARY KEY (id_empresa)    CONSTRAINT empresa_pkey PRIMARY KEY (id_empresa)
 )
 WITH (
@@ -323,13 +324,13 @@ ALTER TABLE public.hogar_contenedor
 
 CREATE TABLE public.empresa_contenedor
 (
+    id_contenedor_res bigint NOT NULL,
+    id_ccz_municipio_cont smallint NOT NULL,
+    id_barrio_cont smallint NOT NULL,
+    id_empresa bigint NOT NULL,
+    id_ccz_municipio_empresa smallint NOT NULL,
+    id_barrio_empresa smallint NOT NULL,
     id_empresa_contenedor bigint NOT NULL DEFAULT nextval('empresa_cont_id_seq'::regclass),
-    id_contenedor_res bigint NOT NULL REFERENCES contenedor_residuos (id_contenedor_res),
-    id_ccz_municipio_cont SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
-    id_barrio_cont SMALLINT NOT NULL REFERENCES barrio (id_barrio),
-    id_empresa bigint NOT NULL REFERENCES empresa (id_empresa),
-    id_ccz_municipio_empresa SMALLINT NOT NULL REFERENCES ccz_municipio (id_ccz_municipio),
-    id_barrio_empresa SMALLINT NOT NULL REFERENCES barrio (id_barrio),
     CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont,id_barrio_cont,id_empresa,id_ccz_municipio_empresa,id_barrio_empresa)
 )
 WITH (
