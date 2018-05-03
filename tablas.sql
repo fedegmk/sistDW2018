@@ -331,7 +331,7 @@ CREATE TABLE public.empresa_contenedor
     id_ccz_municipio_empresa smallint NOT NULL,
     id_barrio_empresa smallint NOT NULL,
     id_empresa_contenedor bigint NOT NULL DEFAULT nextval('empresa_cont_id_seq'::regclass),
-    CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_contenedor_res,id_ccz_municipio_cont,id_barrio_cont,id_empresa,id_ccz_municipio_empresa,id_barrio_empresa)
+    CONSTRAINT empresa_contenedor_pkey PRIMARY KEY (id_empresa_contenedor)
 )
 WITH (
     OIDS = FALSE
