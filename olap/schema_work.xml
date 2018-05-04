@@ -128,9 +128,13 @@
     </Measure>
     <Measure name="cant_menores_14" column="cant_pers_menor_14" datatype="Integer" aggregator="min" visible="false">
     </Measure>
-    <CalculatedMember name="cant_personas_mayores_14" formatString="" formula="SUM(except(distinct({[hogar.num_hogar].Members}),[hogar.num_hogar].currentmember),[Measures].[cant_mayores_14]) " dimension="Measures" visible="true">
+    <CalculatedMember name="cant_personas_mayores_14" formula="SUM(except(distinct({[hogar.num_hogar].Members}),[hogar.num_hogar].currentmember),[Measures].[cant_mayores_14]) " dimension="Measures" visible="true">
     </CalculatedMember>
-    <CalculatedMember name="cant_personas_menores_14" formatString="" formula="SUM(except(distinct({[hogar.num_hogar].Members}),[hogar.num_hogar].currentmember),[Measures].[cant_menores_14]) " dimension="Measures" visible="true">
+    <CalculatedMember name="cant_personas_menores_14" formula="SUM(except(distinct({[hogar.num_hogar].Members}),[hogar.num_hogar].currentmember),[Measures].[cant_menores_14]) " dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="indice_cant_cont_x_cant_pers" formatString="" formula="([Measures].[cant_contenedores] / ([Measures].[cant_personas_mayores_14] + [Measures].[cant_personas_menores_14]))*100" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="indice_cant_cont_x_cant_hogares" formatString="" formula="([Measures].[cant_contenedores] / [Measures].[cant_hogares]) * 100" dimension="Measures" visible="true">
     </CalculatedMember>
   </Cube>
   <Cube name="Empresa_contenedor" visible="true" cache="true" enabled="true">

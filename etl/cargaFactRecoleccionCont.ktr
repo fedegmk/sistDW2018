@@ -193,6 +193,50 @@ from staging.stg_cont</sql>
     </step>
 
   <step>
+    <name>eliminar_dup</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+    <fields>      <field>        <name>cod_circ</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>dias</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>tipo_rango</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>rango_hor</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>barrio_cont</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_ccz</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>gid</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_horario</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>dia</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_tiempo</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>frec_rec</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_contenedor_res</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1180</xloc>
+      <yloc>29</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>frecuencia</name>
     <type>ScriptValueMod</type>
     <description/>
@@ -340,86 +384,6 @@ var frec_rec = (id_tiempo != 0) ? 1 : 0;</jsScript_script>
     </step>
 
   <step>
-    <name>split_campo_dia</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>dias</splitfield>
-   <delimiter>-</delimiter>
-   <newfield>dia</newfield>
-   <rownum>N</rownum>
-   <rownum_field/>
-   <resetrownumber>Y</resetrownumber>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>470</xloc>
-      <yloc>29</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>split_turno_horario</name>
-    <type>FieldSplitter</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-   <splitfield>turno_horario</splitfield>
-   <delimiter> </delimiter>
-    <fields>      <field>        <name>dias</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>      <field>        <name>tipo_rango</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>      <field>        <name>rango_hor</name>
-        <id/>
-        <idrem>N</idrem>
-        <type>String</type>
-        <format/>
-        <group/>
-        <decimal/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif/>
-        <ifnull/>
-        <trimtype>both</trimtype>
-      </field>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>186</xloc>
-      <yloc>29</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>ordenar</name>
     <type>SortRows</type>
     <description/>
@@ -507,8 +471,8 @@ var frec_rec = (id_tiempo != 0) ? 1 : 0;</jsScript_script>
     </step>
 
   <step>
-    <name>eliminar_dup</name>
-    <type>Unique</type>
+    <name>split_campo_dia</name>
+    <type>SplitFieldToRows3</type>
     <description/>
     <distribute>Y</distribute>
     <copies>1</copies>
@@ -516,35 +480,71 @@ var frec_rec = (id_tiempo != 0) ? 1 : 0;</jsScript_script>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-    <fields>      <field>        <name>cod_circ</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>dias</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>tipo_rango</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>rango_hor</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>barrio_cont</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>nro_ccz</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>gid</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_horario</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>dia</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_tiempo</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>frec_rec</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_contenedor_res</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
+   <splitfield>dias</splitfield>
+   <delimiter>-</delimiter>
+   <newfield>dia</newfield>
+   <rownum>N</rownum>
+   <rownum_field/>
+   <resetrownumber>Y</resetrownumber>
+     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1180</xloc>
+      <xloc>470</xloc>
+      <yloc>29</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>split_turno_horario</name>
+    <type>FieldSplitter</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+   <splitfield>turno_horario</splitfield>
+   <delimiter> </delimiter>
+    <fields>      <field>        <name>dias</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>      <field>        <name>tipo_rango</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>      <field>        <name>rango_hor</name>
+        <id/>
+        <idrem>N</idrem>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>both</trimtype>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>186</xloc>
       <yloc>29</yloc>
       <draw>Y</draw>
       </GUI>

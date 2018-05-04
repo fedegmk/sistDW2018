@@ -126,8 +126,8 @@ from empresa
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>82</xloc>
-      <yloc>210</yloc>
+      <xloc>64</xloc>
+      <yloc>215</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -144,7 +144,7 @@ from empresa
            </partitioning>
     <connection>localhost_dw</connection>
     <sql>select st_distance(se.geometria::geometry, sc.geometria::geometry) as distance, 
-	    se.nro_ccz as nro_ccz_emp, se.nro_barrio nro_barrio_emp, se.razon_soc, se.rut, se.dir_emp, se.estado_hab, se.tipo_emp,
+	    se.nro_ccz as nro_ccz_emp, se.nro_barrio nro_barrio_emp, se.razon_soc, se.rut, se.dir_emp, se.estado_hab, se.tipo_emp, se.cod_empresa, se.nro_local,
         sc.nro_ccz as nro_ccz_cont, sc.nro_barrio nro_barrio_cont, sc.gid
 from staging.stg_emps se, staging.stg_cont sc
 where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
@@ -224,6 +224,38 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
     </step>
 
   <step>
+    <name>eliminar_dup</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <count_rows>N</count_rows>
+      <count_field/>
+    <fields>      <field>        <name>nro_ccz_emp</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_barrio_emp</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_ccz_cont</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>nro_barrio_cont</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_empresa</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>id_contenedor_res</name>
+        <case_insensitive>N</case_insensitive>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>893</xloc>
+      <yloc>228</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>filtrar_columnas</name>
     <type>SelectValues</type>
     <description/>
@@ -249,6 +281,30 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>rut</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>dir_emp</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>estado_hab</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>tipo_emp</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>cod_empresa</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>nro_local</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>nro_ccz_cont</name>
         <rename/>
         <length>-2</length>
@@ -261,11 +317,35 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>id_empresa</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>tipo_empresa</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>estado_hab_1</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>rut_1</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>razon_social</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>id_empresa</name>
+      </field>      <field>        <name>direccion</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>cod_empresa_1</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>nro_local_1</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -280,13 +360,25 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
       </field>        <select_unspecified>N</select_unspecified>
       <remove>        <name>distance</name>
       </remove>      <remove>        <name>razon_soc</name>
+      </remove>      <remove>        <name>rut</name>
+      </remove>      <remove>        <name>dir_emp</name>
+      </remove>      <remove>        <name>estado_hab</name>
+      </remove>      <remove>        <name>tipo_emp</name>
+      </remove>      <remove>        <name>cod_empresa</name>
+      </remove>      <remove>        <name>nro_local</name>
       </remove>      <remove>        <name>gid</name>
+      </remove>      <remove>        <name>tipo_empresa</name>
+      </remove>      <remove>        <name>estado_hab_1</name>
+      </remove>      <remove>        <name>rut_1</name>
       </remove>      <remove>        <name>razon_social</name>
+      </remove>      <remove>        <name>direccion</name>
+      </remove>      <remove>        <name>cod_empresa_1</name>
+      </remove>      <remove>        <name>nro_local_1</name>
       </remove>      <remove>        <name>gid_1</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>759</xloc>
-      <yloc>135</yloc>
+      <yloc>134</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -305,18 +397,10 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
 <step1>ordenar</step1>
 <step2>ordenar 2</step2>
     <keys_1>
-      <key>razon_soc</key>
-      <key>rut</key>
-      <key>dir_emp</key>
-      <key>tipo_emp</key>
-      <key>estado_hab</key>
+      <key>nro_local</key>
     </keys_1>
     <keys_2>
-      <key>razon_social</key>
-      <key>rut</key>
-      <key>direccion</key>
-      <key>tipo_empresa</key>
-      <key>estado_hab</key>
+      <key>nro_local</key>
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -372,27 +456,7 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
       <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>razon_soc</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>rut</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>dir_emp</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>tipo_emp</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>estado_hab</name>
+        <name>nro_local</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
@@ -424,27 +488,7 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
       <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>razon_social</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>rut</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>direccion</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>tipo_empresa</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
-        <name>estado_hab</name>
+        <name>nro_local</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
@@ -574,38 +618,6 @@ where st_distance(se.geometria::geometry, sc.geometria::geometry) &lt;= 60
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>759</xloc>
       <yloc>239</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>eliminar_dup</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <count_rows>N</count_rows>
-      <count_field/>
-    <fields>      <field>        <name>nro_ccz_emp</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>nro_barrio_emp</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>nro_ccz_cont</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>nro_barrio_cont</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_empresa</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>id_contenedor_res</name>
-        <case_insensitive>N</case_insensitive>
-        </field>      </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>893</xloc>
-      <yloc>228</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

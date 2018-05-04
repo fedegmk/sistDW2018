@@ -398,8 +398,8 @@ INSERT INTO public.barrio(
 -- tupla por defecto en empresa
 
 INSERT INTO public.empresa(
-    id_empresa, tipo_empresa, estado_hab, rut, razon_social, direccion)
-    VALUES (0, 'S/D', 'S/D', 'S/D', 'S/D', 'S/D');
+    id_empresa, tipo_empresa, estado_hab, rut, razon_social, direccion, nro_local)
+    VALUES (0, 'S/D', 'S/D', 'S/D', 'S/D', 'S/D', 0);
 
 -- tupla por defecto en hogar
 

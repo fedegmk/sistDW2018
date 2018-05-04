@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>url_servicio_rut_loc</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_barrio</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>corregir_campo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>eliminar_dup 2</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campo_geom</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup 2</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>url_servicio_rut_loc</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>url_servicio_cod_emp</from><to>filtrar_columnas</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas</from><to>HTTP client</to><enabled>Y</enabled> </hop>  <hop> <from>extraer_coordenadas</from><to>correccion_campos</to><enabled>Y</enabled> </hop>  <hop> <from>HTTP client</from><to>existe_via?</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>existe_num_en_via?</to><enabled>Y</enabled> </hop>  <hop> <from>correccion_campos</from><to>filtrar_columnas 2</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>filtrar_columnas 3</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 3</from><to>locales_sin_via_correcta</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>filtrar_columnas 4</to><enabled>N</enabled> </hop>  <hop> <from>filtrar_columnas 4</from><to>locales_sin_num_correcto</to><enabled>N</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>extraer_coordenadas</to><enabled>Y</enabled> </hop>  <hop> <from>IN_stg_barrio</from><to>tipo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>tipo_geom</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>filtrar_columnas 2</from><to>join_barrio</to><enabled>Y</enabled> </hop>  <hop> <from>join_barrio</from><to>corregir_campo_geom</to><enabled>Y</enabled> </hop>  <hop> <from>existe_via?</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>existe_num_en_via?</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar 2</from><to>eliminar_dup 2</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campo_geom</from><to>ordenar 2</to><enabled>Y</enabled> </hop>  <hop> <from>eliminar_dup 2</from><to>OUT_stg_emps</to><enabled>Y</enabled> </hop>  <hop> <from>IN_locales_comerciales</from><to>url_servicio_cod_emp</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Dummy (do nothing)</name>
     <type>Dummy</type>
@@ -109,7 +109,7 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>817</xloc>
+      <xloc>810</xloc>
       <yloc>171</yloc>
       <draw>Y</draw>
       </GUI>
@@ -502,8 +502,12 @@ from staging.stg_barrio</sql>
           <stream_name>nro_barrio</stream_name>
         </field>
         <field>
-          <column_name>rut_locid</column_name>
-          <stream_name>rutloc</stream_name>
+          <column_name>cod_empresa</column_name>
+          <stream_name>cod_emp</stream_name>
+        </field>
+        <field>
+          <column_name>nro_local</column_name>
+          <stream_name>RALOCA_ID</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -594,11 +598,15 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>RALOCA_ID</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>ESTADO_LOCAL</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>rutloc</name>
+      </field>      <field>        <name>cod_emp</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -615,7 +623,8 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <length>-2</length>
         <precision>-2</precision>
       </field>        <select_unspecified>N</select_unspecified>
-      <meta>        <name>geom_emp</name>
+      <remove>        <name>geometria_barrio</name>
+      </remove>      <meta>        <name>geom_emp</name>
         <rename>geometria</rename>
         <type>String</type>
         <length>-2</length>
@@ -647,17 +656,17 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
       <count_field/>
     <fields>      <field>        <name>nro_barrio</name>
         <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>geometria_barrio</name>
-        <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>NRO_DOCUMENTO</name>
         <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>EMPRESA</name>
         <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>RUBRO</name>
         <case_insensitive>N</case_insensitive>
+        </field>      <field>        <name>RALOCA_ID</name>
+        <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>ESTADO_LOCAL</name>
         <case_insensitive>N</case_insensitive>
-        </field>      <field>        <name>rutloc</name>
+        </field>      <field>        <name>cod_emp</name>
         <case_insensitive>N</case_insensitive>
         </field>      <field>        <name>geometria</name>
         <case_insensitive>N</case_insensitive>
@@ -869,14 +878,13 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>rutloc</name>
+      </field>      <field>        <name>cod_emp</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
       </field>        <select_unspecified>N</select_unspecified>
       <remove>        <name>FINGRESO</name>
       </remove>      <remove>        <name>NRO_HAB</name>
-      </remove>      <remove>        <name>RALOCA_ID</name>
       </remove>      <remove>        <name>GIROS</name>
       </remove>      <remove>        <name>FDESDE_HAB</name>
       </remove>      <remove>        <name>FHASTA_HAB</name>
@@ -912,6 +920,10 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>RUBRO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>RALOCA_ID</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -951,7 +963,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>rutloc</name>
+      </field>      <field>        <name>cod_emp</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1357,11 +1369,6 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>geometria_barrio</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-      </field>
-      <field>
         <name>NRO_DOCUMENTO</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
@@ -1377,12 +1384,17 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
+        <name>RALOCA_ID</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+      </field>
+      <field>
         <name>ESTADO_LOCAL</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
       <field>
-        <name>rutloc</name>
+        <name>cod_emp</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
       </field>
@@ -1448,7 +1460,7 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
     </step>
 
   <step>
-    <name>url_servicio_rut_loc</name>
+    <name>url_servicio_cod_emp</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
@@ -1463,15 +1475,15 @@ var CCZ1 = (CCZ != null) ?  parseInt(CCZ) : 0;
         <jsScript_script>&#47;&#47;Script here
 
 var url = &quot;http:&#47;&#47;api.montevideo.gub.uy&#47;ubicacionesRest&#47;direcciones&#47;posicion&#47;&quot; + VIA_VIA + &quot;&#47;&quot; + NRO_PUERTA;
-var rutloc = NRO_DOCUMENTO + &apos;&apos; + RALOCA_ID;</jsScript_script>
+var cod_emp = EMPRESA + &apos; (loc: &apos; + RALOCA_ID + &apos;)&apos;;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>url</name>
         <rename>url</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
-      </field>      <field>        <name>rutloc</name>
-        <rename>rutloc</rename>
+      </field>      <field>        <name>cod_emp</name>
+        <rename>cod_emp</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
