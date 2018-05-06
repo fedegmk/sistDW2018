@@ -64,7 +64,7 @@
     </Measure>
     <Measure name="cant_contenedores" column="id_contenedor_res" datatype="Integer" aggregator="distinct-count" visible="true">
     </Measure>
-    <CalculatedMember name="frecuencia" formula="iif ([tiempo].Level.ordinal = 1, SUM(except(descendants([tiempo].Level.currentmember),[tiempo].Level.currentmember), [Measures].[frec_rec]), [Measures].[frec_rec])" dimension="Measures" visible="true">
+    <CalculatedMember name="frecuencia" formula="iif([barrio].Level.ordinal &#62; 0 or [ccz_municipio].Level.ordinal &#62; 0 or [horario].Level.ordinal &#62; 0, -1, iif([tiempo].Level.ordinal &#60;= 1, SUM(descendants([tiempo].currentmember,,LEAVES),[Measures].[frec_rec]), iif([tiempo].Level.ordinal = 2, [Measures].[frec_rec],-1)))" dimension="Measures" visible="true">
     </CalculatedMember>
   </Cube>
   <Cube name="Hogar_contenedor" visible="true" cache="true" enabled="true">
@@ -132,9 +132,9 @@
     </CalculatedMember>
     <CalculatedMember name="cant_personas_menores_14" formula="SUM(except(distinct({[hogar.num_hogar].Members}),[hogar.num_hogar].currentmember),[Measures].[cant_menores_14]) " dimension="Measures" visible="true">
     </CalculatedMember>
-    <CalculatedMember name="indice_cant_cont_x_cant_pers" formatString="" formula="([Measures].[cant_contenedores] / ([Measures].[cant_personas_mayores_14] + [Measures].[cant_personas_menores_14]))*100" dimension="Measures" visible="true">
+    <CalculatedMember name="indice_cant_cont_x_cant_pers" formula="([Measures].[cant_contenedores] / ([Measures].[cant_personas_mayores_14] + [Measures].[cant_personas_menores_14]))*100" dimension="Measures" visible="true">
     </CalculatedMember>
-    <CalculatedMember name="indice_cant_cont_x_cant_hogares" formatString="" formula="([Measures].[cant_contenedores] / [Measures].[cant_hogares]) * 100" dimension="Measures" visible="true">
+    <CalculatedMember name="indice_cant_cont_x_cant_hogares" formula="([Measures].[cant_contenedores] / [Measures].[cant_hogares]) * 100" dimension="Measures" visible="true">
     </CalculatedMember>
   </Cube>
   <Cube name="Empresa_contenedor" visible="true" cache="true" enabled="true">
