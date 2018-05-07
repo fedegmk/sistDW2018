@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:ExportManifest xmlns:ns2="http://www.pentaho.com/schema/">
+    <ExportManifestInformation exportDate="07-05-2018 01:11:45 ART" exportBy="admin" rootFolder="/home/admin/dashboard/" manifestVersion="2"/>
+    <ExportManifestEntity path="hogares_empresas.wcdf">
+        <ExportManifestProperty>
+            <EntityMetaData name="hogares_empresas.wcdf" createdDate="2018-05-04T20:16:59.802-03:00" isFolder="false" path="hogares_empresas.wcdf" isHidden="false" isSchedulable="true" locale="es_419" title="hogares_empresas.wcdf"/>
+        </ExportManifestProperty>
+        <ExportManifestProperty>
+            <EntityAcl>
+                <entriesInheriting>true</entriesInheriting>
+                <owner>admin</owner>
+                <ownerType>USER</ownerType>
+            </EntityAcl>
+        </ExportManifestProperty>
+    </ExportManifestEntity>
+</ns2:ExportManifest>

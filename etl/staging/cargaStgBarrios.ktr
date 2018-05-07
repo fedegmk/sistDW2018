@@ -78,7 +78,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>IN_barrios_ine</from><to>preparar_tuplas_ine</to><enabled>Y</enabled> </hop>  <hop> <from>IN_barrios_im</from><to>preparar_tuplas_im</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>corregir_campos</to><enabled>N</enabled> </hop>  <hop> <from>preparar_tuplas_im</from><to>ordenar_tuplas_im</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar_tuplas_im</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas_ine</from><to>ordenar_tuplas_ine</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar_tuplas_ine</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campos</from><to>OUT_stg_barrio</to><enabled>N</enabled> </hop>  <hop> <from>join</from><to>corregir_campos 2</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campos 2</from><to>OUT_stg_barrio</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>IN_barrios_ine</from><to>preparar_tuplas_ine</to><enabled>Y</enabled> </hop>  <hop> <from>IN_barrios_im</from><to>preparar_tuplas_im</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas_im</from><to>ordenar_tuplas_im</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar_tuplas_im</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>preparar_tuplas_ine</from><to>ordenar_tuplas_ine</to><enabled>Y</enabled> </hop>  <hop> <from>ordenar_tuplas_ine</from><to>join</to><enabled>Y</enabled> </hop>  <hop> <from>join</from><to>corregir_campos 2</to><enabled>Y</enabled> </hop>  <hop> <from>corregir_campos 2</from><to>OUT_stg_barrio</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>IN_barrios_im</name>
     <type>GISFileInput</type>
@@ -187,7 +187,7 @@
     </step>
 
   <step>
-    <name>corregir_campos</name>
+    <name>corregir_campos 2</name>
     <type>ReplaceString</type>
     <description/>
     <distribute>Y</distribute>
@@ -206,29 +206,11 @@
         <whole_word>no</whole_word>
         <case_sensitive>no</case_sensitive>
       </field>
-      <field>
-        <in_stream_name>geometria</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>MULTIPOLYGON (((</replace_string>
-        <replace_by_string>POLYGON ((</replace_by_string>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>geometria</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>)))</replace_string>
-        <replace_by_string>))</replace_by_string>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>958</xloc>
-      <yloc>19</yloc>
+      <yloc>115</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -401,35 +383,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>266</xloc>
       <yloc>25</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>corregir_campos 2</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>BARRIO</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>¥</replace_string>
-        <replace_by_string>Ñ</replace_by_string>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>958</xloc>
-      <yloc>115</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

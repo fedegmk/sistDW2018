@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="contMunCcz" type="sql.jndi">
+         <Jndi>localhost_dw</Jndi>
+      </Connection>
+      <Connection id="cantEmpsMun" type="sql.jndi">
+         <Jndi>localhost_dw</Jndi>
+      </Connection>
+      <Connection id="cantHogaresMun" type="sql.jndi">
+         <Jndi>localhost_dw</Jndi>
+      </Connection>
+      <Connection id="legendMunicipios" type="sql.jndi">
+         <Jndi>localhost_dw</Jndi>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" connection="contMunCcz" id="contMunCcz" type="sql">
+      <Name>contMunCcz</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Output indexes="0,1,2" mode="include"/>
+      <Parameters>
+         <Parameter default="A;B;C;D;CH;E;F;G" name="municipiosSeleccionados" type="StringArray"/>
+      </Parameters>
+      <Query><![CDATA[select cm.municipio, cm.ccz, count(distinct rcr.id_contenedor_res) as cant_cont_res
+from recoleccion_cont_residuos rcr
+inner join ccz_municipio cm on cm.id_ccz_municipio = rcr.id_ccz_municipio
+where cm.municipio in (${municipiosSeleccionados})
+group by cm.municipio, cm.ccz]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="cantEmpsMun" id="cantEmpsMun" type="sql">
+      <Name>cantEmpsMun</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Output indexes="0,1,2" mode="include"/>
+      <Parameters>
+         <Parameter default="A;B;C;D;CH;E;F;G" name="municipiosSeleccionados" type="StringArray"/>
+      </Parameters>
+      <Query><![CDATA[select cm.municipio, cm.ccz,  count(distinct ec.id_empresa) as cant_empresas
+from empresa_contenedor ec
+inner join ccz_municipio cm on cm.id_ccz_municipio = ec.id_ccz_municipio_empresa
+where cm.municipio in (${municipiosSeleccionados})
+group by cm.municipio, cm.ccz]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="cantHogaresMun" id="cantHogaresMun" type="sql">
+      <Name>cantHogaresMun</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Output indexes="0,1,2" mode="include"/>
+      <Parameters>
+         <Parameter default="A;B;C;D;CH;E;F;G" name="municipiosSeleccionados" type="StringArray"/>
+      </Parameters>
+      <Query><![CDATA[select cm.municipio, cm.ccz,  count(distinct hc.id_hogar) as cant_hogares
+from hogar_contenedor hc
+inner join ccz_municipio cm on cm.id_ccz_municipio = hc.id_ccz_municipio_hogar
+where cm.municipio in (${municipiosSeleccionados})
+group by cm.municipio, cm.ccz]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="legendMunicipios" id="legendMunicipios" type="sql">
+      <Name>legendMunicipios</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Output indexes="0" mode="include"/>
+      <Parameters/>
+      <Query><![CDATA[select 'Municipio '||cm.municipio, count(distinct rcr.id_contenedor_res) as cant_cont_res
+from recoleccion_cont_residuos rcr
+inner join ccz_municipio cm on cm.id_ccz_municipio = rcr.id_ccz_municipio
+group by cm.municipio
+order by cm.municipio]]></Query>
+   </DataAccess>
+</CDADescriptor>
